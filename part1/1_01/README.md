@@ -1,15 +1,11 @@
 # Building the image
-
 ```
 docker build . -t robsondepaula/main-app
 ```
-
 # Publish to Docker Hub
-
 ```
 docker push robsondepaula/main-app
 ```
-
 # Test as docker container
 ```
 docker run --name nodejs-main-app -d robsondepaula/main-app
@@ -17,7 +13,6 @@ docker run --name nodejs-main-app -d robsondepaula/main-app
 ```
 docker logs <container-id>
 ```
-
 # Kubernetes
 Deploy to cluster:
 ```
