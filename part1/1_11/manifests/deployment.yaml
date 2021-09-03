@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistent-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: persistent
+  template:
+    metadata:
+      labels:
+        app: persistent
+    spec:
+      volumes:
+      - name: shared-logs
+        persistentVolumeClaim:
+          claimName: local-claim
+      containers:
+        - name: pingpong
+          image: robsondepaula/pingpong
+          volumeMounts: 
+          - name: shared-logs
+            mountPath: /tmp/log
+        - name: reader
+          image: robsondepaula/main-app
+          volumeMounts: 
+          - name: shared-logs
+            mountPath: /tmp/log
