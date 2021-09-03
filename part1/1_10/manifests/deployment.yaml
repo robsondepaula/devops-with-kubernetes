@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: generator-reader-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: generator-reader
+  template:
+    metadata:
+      labels:
+        app: generator-reader
+    spec:
+      volumes:
+        - name: shared-log
+          emptyDir: {}
+      containers:
+        - name: generator
+          image: robsondepaula/generator
+          volumeMounts: 
+          - name: shared-log
+            mountPath: /tmp/log/generator/
+        - name: reader
+          image: robsondepaula/reader
+          volumeMounts: 
+          - name: shared-log
+            mountPath: /tmp/log/generator/
