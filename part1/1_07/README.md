@@ -16,7 +16,4 @@ Verify pod is running:
 ```
 kubectl get pods
 ```
-Check logs emanating from the container running inside the pod:
-```
-kubectl logs -f main-dep-5788f9865c-dm72b
-```
+Once the pod is on running state, ppen [http://localhost:8081](http://localhost:8081) to view it in the browser.
