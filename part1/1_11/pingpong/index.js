@@ -1,8 +1,8 @@
-const express = require('express')
+const express = require("express");
 const path = require("path");
 const fs = require("fs");
 
-const app = express()
+const app = express();
 
 const directory = path.join("/", "tmp", "log");
 const filePath = path.join(directory, "pingpong.log");
@@ -19,14 +19,14 @@ const logToFile = async (contents) => {
   });
 };
 
-app.get('/', (request, response) => {
-  const fileContents = `Ping / Pongs: ${counter++}`
+app.get("/", (request, response) => {
+  const fileContents = `Ping / Pongs: ${counter++}`;
   logToFile(fileContents);
-  response.json(fileContents)
-})
+  response.json(fileContents);
+});
 
-let counter = 0
-const PORT = 3000
+let counter = 0;
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server started in port ${PORT}`)
-})
+  console.log(`Server started in port ${PORT}`);
+});

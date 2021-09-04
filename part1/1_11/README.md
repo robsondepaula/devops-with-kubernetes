@@ -1,7 +1,11 @@
 # Kubernetes
+Create the local directory (if not exists):
+```
+mkdir -p /tmp/kube
+```
 Command used to create the cluster (if not already):
 ```
-k3d cluster create -p 8081:80@loadbalancer --agents 2
+k3d cluster create --volume /tmp/kube:/tmp/kube -p 8081:80@loadbalancer --agents 2
 ```
 Create the local volme binding (if not exists):
 ```

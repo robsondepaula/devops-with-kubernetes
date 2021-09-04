@@ -19,10 +19,16 @@ const retrieveLog = async () =>
   });
 
 app.get("/", async (request, response) => {
-  const log = await retrieveLog();
-  const date = new Date;
-  response.set('Content-Type', 'text/html');
-  response.send(`${date.toISOString()} : ${randomString}\n${log}`);
+  let log = "failed to retrieve data";
+  try {
+    log = await retrieveLog();
+  } catch (err) {
+    console.log(err);
+  } finally {
+    const date = new Date();
+    response.set("Content-Type", "text/html");
+    response.send(`${date.toISOString()} : ${randomString}\n${log}`);
+  }
 });
 
 const randomString = uuidv4();
