@@ -7,11 +7,7 @@ spec:
   selector:
     app: project-app
   ports:
-    - name: appport
+    - name: http
+      protocol: TCP
       port: 2345
-      protocol: TCP
-      targetPort: 80
-    - name: serviceport
-      port: 2346
-      protocol: TCP
-      targetPort: 3001
+      targetPort: 80 # react app served by nginx

@@ -17,17 +17,13 @@ spec:
         persistentVolumeClaim:
           claimName: local-claim
       containers:
-        - name: project-app
+        - name: app-container
           image: robsondepaula/project
-          ports:
-            - containerPort: 80
           volumeMounts: 
           - name: shared-data
             mountPath: /data
-        - name: project-service
+        - name: service-container
           image: robsondepaula/project-service
-          ports:
-            - containerPort: 3001
           volumeMounts: 
           - name: shared-data
             mountPath: /data

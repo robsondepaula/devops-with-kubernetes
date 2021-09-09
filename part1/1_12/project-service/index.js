@@ -5,19 +5,12 @@ const axios = require("axios");
 const cors = require("cors");
 
 const directory = path.join("/", "data");
+const filePath = path.join(directory, `todays-image.jpg`);
 
 const app = express();
 app.use(cors());
 
-function getFileName() {
-  const date = new Date();
-  const fileName = `${date.getFullYear()}${
-    date.getMonth() + 1
-  }${date.getDate()}`;
-  return fileName;
-}
-
-const fileAlreadyExists = async (filePath) => {
+const fileAlreadyExists = async () => {
   return new Promise((res) => {
     fs.stat(filePath, (err, stats) => {
       if (err || !stats) {
@@ -28,21 +21,43 @@ const fileAlreadyExists = async (filePath) => {
   });
 };
 
-const retrieveFileIfNeed = async () => {
-  const filePath = path.join(directory, `${getFileName()}.jpg`);
+const upToDateImage = async () => {
   if ((await fileAlreadyExists(filePath)) == false) {
     await new Promise((res) => fs.mkdir(directory, (err) => res()));
+
+    return false;
+  }
+
+  const fileStat = fs.statSync(filePath);
+  const createdDate = fileStat.birthtime;
+
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const currentDay = currentDate.getDate();
+
+  if (
+    createdDate.getFullYear() != currentYear ||
+    createdDate.getMonth() != currentMonth ||
+    createdDate.getDate() != currentDay
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+const retrieveFileIfNeed = async () => {
+  if ((await upToDateImage(filePath)) == false) {
     const response = await axios.get("https://picsum.photos/200", {
       responseType: "stream",
     });
     await response.data.pipe(fs.createWriteStream(filePath));
   }
-
-  return filePath;
 };
 
 app.get("/", async (request, response) => {
-  const filePath = await retrieveFileIfNeed();
+  await retrieveFileIfNeed();
   response.sendFile(filePath);
 });
 

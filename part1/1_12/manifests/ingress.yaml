@@ -13,10 +13,3 @@ spec:
             name: project-svc
             port:
               number: 2345
-      - path: /getImage
-        pathType: Prefix
-        backend:
-          service:
-            name: project-svc
-            port:
-              number: 2346
