@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: project-app-config
+data:
+    app.properties: |
+        window.API_URL= "http://localhost:8081/api"

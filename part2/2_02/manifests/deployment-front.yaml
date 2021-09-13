@@ -15,6 +15,14 @@ spec:
       containers:
         - name: app-container
           image: robsondepaula/project
-          env:
-          - name: REACT_APP_API_URL
-            value: "http://localhost:8081/api"
+          volumeMounts:
+              - name: config #override config.js file
+                mountPath: "/usr/share/nginx/html/config.js"
+                subPath: "config.js"
+      volumes:
+          - name: config
+            configMap:
+                name: project-app-config
+                items:
+                    - key: "app.properties"
+                      path: "config.js"
