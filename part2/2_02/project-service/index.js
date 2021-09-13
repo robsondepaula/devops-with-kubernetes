@@ -4,7 +4,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 
-const directory = path.join("/", "data");
+const directory = process.env.IMG_STORAGE || path.join("/", "tmp");
 const filePath = path.join(directory, `todays-image.jpg`);
 
 const app = express();

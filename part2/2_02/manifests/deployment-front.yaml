@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-app-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-app
+  template:
+    metadata:
+      labels:
+        app: project-app
+    spec:
+      containers:
+        - name: app-container
+          image: robsondepaula/project
+          env:
+          - name: REACT_APP_API_URL
+            value: "http://localhost:8081/api"

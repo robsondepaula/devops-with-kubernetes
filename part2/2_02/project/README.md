@@ -1,9 +1,9 @@
 # The "project"
-Run the app locally:
+To run the app locally:
 ```
 npm start
 ```
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser. Requires that the service is also running on port 3001.
 
 To build it for deployment and containerization:
 ```

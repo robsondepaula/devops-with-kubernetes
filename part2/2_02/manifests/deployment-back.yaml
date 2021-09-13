@@ -1,29 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: project-dep
+  name: project-svc-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: project-app
+      app: project-svc
   template:
     metadata:
       labels:
-        app: project-app
+        app: project-svc
     spec:
       volumes:
-      - name: shared-data
+      - name: img-data
         persistentVolumeClaim:
           claimName: local-claim
       containers:
-        - name: app-container
-          image: robsondepaula/project
-          volumeMounts: 
-          - name: shared-data
-            mountPath: /data
         - name: service-container
           image: robsondepaula/project-service
+          env:
+          - name: IMG_STORAGE
+            value: /data/images/
           volumeMounts: 
-          - name: shared-data
+          - name: img-data
             mountPath: /data

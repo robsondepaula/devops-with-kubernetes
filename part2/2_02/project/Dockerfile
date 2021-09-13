@@ -1,5 +1,10 @@
-FROM nginx
+FROM node:14.17.3 as build
+RUN mkdir /app
+COPY . /app
+WORKDIR /app
+RUN npm install \
+    && npm run-script build \
+    && ls -l
 
-COPY build/ /usr/share/nginx/html
-
-COPY ./nginx.conf /etc/nginx/nginx.conf
+FROM nginx:1.21.3-alpine
+COPY --from=build /app/build/ /usr/share/nginx/html
