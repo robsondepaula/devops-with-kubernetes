@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-app
+  template:
+    metadata:
+      labels:
+        app: project-app
+    spec:
+      volumes:
+      - name: shared-data
+        persistentVolumeClaim:
+          claimName: local-claim
+      containers:
+        - name: app-container
+          image: robsondepaula/project
+          volumeMounts: 
+          - name: shared-data
+            mountPath: /data
+        - name: service-container
+          image: robsondepaula/project-service
+          volumeMounts: 
+          - name: shared-data
+            mountPath: /data
