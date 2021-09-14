@@ -9,6 +9,18 @@ const filePath = path.join(directory, `todays-image.jpg`);
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+
+let todos = [
+  {
+    id: 1,
+    content: "TODO 1",
+  },
+  {
+    id: 2,
+    content: "TODO 2",
+  },
+];
 
 const fileAlreadyExists = async () => {
   return new Promise((res) => {
@@ -59,6 +71,34 @@ const retrieveFileIfNeed = async () => {
 app.get("/", async (request, response) => {
   await retrieveFileIfNeed();
   response.sendFile(filePath);
+});
+
+app.get("/todos", async (request, response) => {
+  response.json(todos);
+});
+
+const generateId = () => {
+  const maxId = todos.length > 0 ? Math.max(...todos.map((t) => t.id)) : 0;
+  return maxId + 1;
+};
+
+app.post("/todos", async (request, response) => {
+  const body = request.body;
+
+  if (!body.content) {
+    return response.status(400).json({
+      error: "content missing",
+    });
+  }
+
+  const todo = {
+    content: body.content,
+    id: generateId(),
+  };
+
+  todos = todos.concat(todo);
+
+  response.json(todo);
 });
 
 const PORT = 3001;

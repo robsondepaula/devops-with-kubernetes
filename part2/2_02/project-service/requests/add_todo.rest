@@ -1,0 +1,6 @@
+POST http://localhost:3001/todos
+Content-Type: application/json
+
+{
+    "content": "newly added TODO."
+}

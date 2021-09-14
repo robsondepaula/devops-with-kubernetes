@@ -5,18 +5,25 @@ const App = () => {
   const [image, setImage] = useState(undefined);
   const [todos, setTodos] = useState([]);
   const [newTodoValue, setNewTodo] = useState("");
-  const reqUrl = window.API_URL;
+  const baseUrl = window.API_URL;
+  const imageApi = baseUrl;
+  const todoApi = `${baseUrl}/todos`;
 
   useEffect(() => {
-    const eventHandler = (response) => {
+    const imageEventHandler = (response) => {
       setImage(Buffer.from(response.data, "binary").toString("base64"));
     };
 
-    const promise = axios.get(reqUrl, { responseType: "arraybuffer" });
-    promise.then(eventHandler);
+    const todoEventHandler = (response) => {
+      setTodos(response.data);
+    };
 
-    setTodos([`TODO 1`, `TODO 2`]);
-  }, [reqUrl]);
+    const imagePromise = axios.get(imageApi, { responseType: "arraybuffer" });
+    imagePromise.then(imageEventHandler);
+
+    const todoPromise = axios.get(todoApi);
+    todoPromise.then(todoEventHandler);
+  }, [imageApi, todoApi]);
 
   const handleTodoChange = (event) => {
     setNewTodo(event.target.value);
@@ -24,7 +31,14 @@ const App = () => {
 
   const handleCreateTodo = (event) => {
     event.preventDefault();
-    console.log(`Create TODO clicked`, event.target);
+    const todoObject = {
+      content: newTodoValue,
+    };
+
+    axios.post(todoApi, todoObject).then((response) => {
+      setTodos(todos.concat(response.data));
+      setNewTodo("");
+    });
   };
 
   return (
@@ -46,7 +60,7 @@ const App = () => {
       </div>
       <ul>
         {todos.map((todo) => (
-          <li>{todo}</li>
+          <li key={todo.id}>{todo.content}</li>
         ))}
       </ul>
     </div>
