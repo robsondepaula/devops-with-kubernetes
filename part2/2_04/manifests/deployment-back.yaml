@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-svc-dep
+  namespace: project-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-svc
+  template:
+    metadata:
+      labels:
+        app: project-svc
+    spec:
+      volumes:
+      - name: img-data
+        persistentVolumeClaim:
+          claimName: local-claim
+      containers:
+        - name: service-container
+          image: robsondepaula/project-service
+          env:
+          - name: IMG_STORAGE
+            value: /data/images/
+          volumeMounts: 
+          - name: img-data
+            mountPath: /data
