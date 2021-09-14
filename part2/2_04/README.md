@@ -21,10 +21,10 @@ kubectl apply -f manifests/
 ```
 Verify deploymenet is ready:
 ```
-kubectl get deployments
+kubectl get deployments --namespace=project-namespace
 ```
 Verify pod is running:
 ```
-kubectl get pods
+kubectl get pods --namespace=project-namespace
 ```
 Once the pod is on running state, ppen [http://localhost:8081](http://localhost:8081) to view it in the browser.
