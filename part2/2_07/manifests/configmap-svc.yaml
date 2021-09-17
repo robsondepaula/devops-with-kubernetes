@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: main-svc-config
+    namespace: main-namespace
+data:
+    svc_port: "3000"

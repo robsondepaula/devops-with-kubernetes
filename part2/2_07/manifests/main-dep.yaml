@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-dep
+  namespace: main-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-app
+  template:
+    metadata:
+      labels:
+        app: main-app
+    spec:
+      containers:
+        - name: main-container
+          image: robsondepaula/main-app
+          env:
+            - name: SVC_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: main-app-config
+                  key: svc_base_url
+            - name: SVC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: main-app-config
+                  key: svc_port
+            - name: APP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: main-app-config
+                  key: app_port
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: main-app-config
+                  key: message
+        - name: pingpong-container
+          image: robsondepaula/pingpong
+          env:
+            - name: SVC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: main-svc-config
+                  key: svc_port
