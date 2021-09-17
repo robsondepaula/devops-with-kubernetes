@@ -18,14 +18,14 @@ spec:
           claimName: local-claim
       containers:
         - name: project-app
-          image: robsondepaula/project
+          image: robsondepaula/project:1_13
           ports:
             - containerPort: 80
           volumeMounts: 
           - name: shared-data
             mountPath: /data
         - name: project-service
-          image: robsondepaula/project-service
+          image: robsondepaula/project-service:1_13
           ports:
             - containerPort: 3001
           volumeMounts: 

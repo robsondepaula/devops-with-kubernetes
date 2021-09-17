@@ -1,14 +1,14 @@
 # Building the image
 ```
-docker build . -t robsondepaula/main-app
+docker build . -t robsondepaula/main-app:1_01
 ```
 # Publish to Docker Hub
 ```
-docker push robsondepaula/main-app
+docker push robsondepaula/main-app:1_01
 ```
 # Test as docker container
 ```
-docker run --name nodejs-main-app -d robsondepaula/main-app
+docker run --name nodejs-main-app -d robsondepaula/main-app:1_01
 ```
 ```
 docker logs <container-id>
@@ -16,7 +16,7 @@ docker logs <container-id>
 # Kubernetes
 Deploy to cluster:
 ```
-kubectl create deployment nodejs-main-app --image=robsondepaula/main-app
+kubectl create deployment nodejs-main-app --image=robsondepaula/main-app:1_01
 ```
 Verify deploymenet is ready:
 ```

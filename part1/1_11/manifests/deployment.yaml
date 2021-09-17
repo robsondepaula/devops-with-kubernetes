@@ -18,12 +18,12 @@ spec:
           claimName: local-claim
       containers:
         - name: pingpong
-          image: robsondepaula/pingpong
+          image: robsondepaula/pingpong:1_11
           volumeMounts: 
           - name: shared-logs
             mountPath: /tmp/log
         - name: reader
-          image: robsondepaula/main-app
+          image: robsondepaula/main-app:1_11
           volumeMounts: 
           - name: shared-logs
             mountPath: /tmp/log

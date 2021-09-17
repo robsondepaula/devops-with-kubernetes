@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: main-app
-          image: robsondepaula/main-app
+          image: robsondepaula/main-app:1_07

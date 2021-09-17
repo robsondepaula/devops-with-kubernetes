@@ -12,9 +12,9 @@ npm run build
 Outputs to the `build` folder.
 # Building the image
 ```
-docker build . -t robsondepaula/project
+docker build . -t robsondepaula/project:1_12
 ```
 # Publish to Docker Hub
 ```
-docker push robsondepaula/project
+docker push robsondepaula/project:1_12
 ```

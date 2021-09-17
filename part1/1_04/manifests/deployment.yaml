@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: project-app
-          image: robsondepaula/project
+          image: robsondepaula/project:1_04

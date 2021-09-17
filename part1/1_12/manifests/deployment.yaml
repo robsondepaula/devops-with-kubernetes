@@ -18,12 +18,12 @@ spec:
           claimName: local-claim
       containers:
         - name: app-container
-          image: robsondepaula/project
+          image: robsondepaula/project:1_12
           volumeMounts: 
           - name: shared-data
             mountPath: /data
         - name: service-container
-          image: robsondepaula/project-service
+          image: robsondepaula/project-service:1_12
           volumeMounts: 
           - name: shared-data
             mountPath: /data
