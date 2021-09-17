@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: main-container
-          image: robsondepaula/main-app
+          image: robsondepaula/main-app:2_06
           env:
             - name: SVC_BASE_URL
               valueFrom:
@@ -38,7 +38,7 @@ spec:
                   name: main-app-config
                   key: message
         - name: pingpong-container
-          image: robsondepaula/pingpong
+          image: robsondepaula/pingpong:2_06
           env:
             - name: SVC_PORT
               valueFrom:

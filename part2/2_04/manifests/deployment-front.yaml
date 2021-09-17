@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app-container
-          image: robsondepaula/project
+          image: robsondepaula/project:2_02
           volumeMounts:
               - name: config #override config.js file
                 mountPath: "/usr/share/nginx/html/config.js"

@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: main-container
-          image: robsondepaula/main-app
+          image: robsondepaula/main-app:2_01
         - name: pingpong-container
-          image: robsondepaula/pingpong
+          image: robsondepaula/pingpong:2_01

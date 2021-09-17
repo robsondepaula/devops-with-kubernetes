@@ -19,7 +19,7 @@ spec:
           claimName: local-claim
       containers:
         - name: service-container
-          image: robsondepaula/project-service
+          image: robsondepaula/project-service:2_02
           env:
           - name: IMG_STORAGE
             value: /data/images/
