@@ -23,6 +23,7 @@ const Todos = sequelize.define(
   {
     freezeTableName: true, // avoid automatic plural of definitions
     timestamps: false, // no extra columns
+    tableName: dbConfig.TABLE,
   }
 );
 
