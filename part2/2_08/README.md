@@ -15,6 +15,14 @@ docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
 ```
 kubectl apply -f manifests/namespace.yaml
 ```
+## SealedSecret CRD
+If following this for the first time:
+
+1. Install SealedSecret CRD, server-side controller into kube-system namespace:
+```
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
+```
+2. Navigate to the [secret](./secret) folder and follow the instruction on the README.
 ## Deploy to cluster
 ```
 kubectl apply -f manifests/

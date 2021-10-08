@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: project-app-config
-    namespace: project-namespace
+  name: project-app-config
+  namespace: project-namespace
 data:
-    app.properties: |
-        window.API_URL= "http://localhost:8081/api"
+  app.properties: |
+    window.API_URL= "http://localhost:8081/api"
