@@ -21,10 +21,15 @@ app.get("/", async (request, response) => {
   } else {
     const pingPong = await Pingpong.findOne();
 
-    let counter = pingPong.count + 1;
+    let counter;
+    if (pingPong) {
+      counter = pingPong.count + 1;
 
-    await Pingpong.update({ count: counter }, { where: { id: pingPong.id } });
-
+      await Pingpong.update({ count: counter }, { where: { id: pingPong.id } });
+    } else {
+      counter = 1;
+      await Pingpong.create({ count: counter });
+    }
     response.json(`Ping / Pongs: ${counter}`);
   }
 });

@@ -27,6 +27,7 @@ kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/downloa
 ```
 kubectl apply -f manifests/
 ```
+You may need to either apply the files to have the DB available before the service or delete the app+svc deployment after the DB is ready, this way the service will connect to it gracefully.
 ## Test
 ```
 curl http://localhost:8081/
