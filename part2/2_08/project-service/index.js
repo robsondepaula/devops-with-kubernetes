@@ -13,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 const { Todos } = require("./models");
+let dbReady = false;
 
 const fileAlreadyExists = async () => {
   return new Promise((res) => {
@@ -60,37 +61,55 @@ const retrieveFileIfNeed = async () => {
   }
 };
 
+const syncDb = async () => {
+  await Todos.sync();
+
+  console.log("Model synchronized successfully, DB can now be used.");
+
+  dbReady = true;
+};
+
 app.get("/", async (request, response) => {
   await retrieveFileIfNeed();
   response.sendFile(filePath);
 });
 
 app.get("/todos", async (request, response) => {
-  const todos = await Todos.findAll();
+  if (!dbReady) {
+    response.status(503);
+  } else {
+    const todos = await Todos.findAll();
 
-  response.json(todos);
+    response.json(todos);
+  }
 });
 
 app.post("/todos", async (request, response) => {
-  const body = request.body;
+  if (!dbReady) {
+    response.status(503);
+  } else {
+    const body = request.body;
 
-  if (!body.content) {
-    return response.status(400).json({
-      error: "content missing",
+    if (!body.content) {
+      return response.status(400).json({
+        error: "content missing",
+      });
+    }
+
+    const todo = await Todos.create({
+      content: body.content,
     });
+
+    response.json(todo);
   }
-
-  const todo = await Todos.create({
-    content: body.content,
-  });
-
-  response.json(todo);
 });
 
 const PORT = process.env.SVC_PORT;
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`);
 });
+
+syncDb();
 
 // fetch once when spun up
 retrieveFileIfNeed();
