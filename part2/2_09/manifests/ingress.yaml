@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: project-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/rule-type: "PathPrefixStrip"
+  namespace: project-namespace
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-svc
+            port:
+              number: 2345
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: back-svc
+            port:
+              number: 2346

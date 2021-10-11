@@ -1,0 +1,21 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: daily-url
+  namespace: project-namespace
+spec:
+  #schedule: "0 6 * * *" # every day at 06:00
+  schedule: "*/1 * * * *" # testing, every minute
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: curl
+            image: curlimages/curl:7.79.1
+            args:
+            - sh
+            - -c
+            - >
+              curl -sI https://en.wikipedia.org/wiki/Special:Random | grep -Fi location | awk 'BEGIN{RS="\r\n";}{print $2}' | read todo; curl -X POST http://back-svc.project-namespace.svc.cluster.local:2346/todos -H "Content-Type: application/json" -d '{ "content": "'"$todo"'" }'
+          restartPolicy: Never
