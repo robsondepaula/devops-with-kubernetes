@@ -4,7 +4,7 @@ metadata:
   name: postgresql-db
   namespace: project-namespace
 spec:
-  serviceName: ppostgresql-db-svc
+  serviceName: postgresql-db-svc
   selector:
     matchLabels:
       app: postgresql-db
