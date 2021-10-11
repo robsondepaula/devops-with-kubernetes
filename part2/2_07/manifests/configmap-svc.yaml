@@ -5,7 +5,7 @@ metadata:
   namespace: main-namespace
 data:
   SVC_PORT: "3000"
-  POSTGRES_HOST: "localhost"
+  POSTGRES_HOST: "postgresql-db-svc.main-namespace.svc.cluster.local"
   POSTGRES_PORT: "35432"
   POSTGRES_USER: "user"
   POSTGRES_DB: "pingpong_db"
