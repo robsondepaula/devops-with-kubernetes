@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: main-loadbalancer
+  namespace: main-namespace
+spec:
+  type: LoadBalancer
+  selector:
+    app: main-app
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3001
