@@ -1,0 +1,15 @@
+POST http://localhost:3001/todos
+Content-Type: application/json
+
+{
+    "content": "newly added TODO."
+}
+
+###
+
+POST http://localhost:3001/todos
+Content-Type: application/json
+
+{
+    "content": "this is foing to be a lenghty content for a todo that is not going to be crrated because it exceeds the maximum content length. A message indicating that character limit was exceeded is going to be logged to the console."
+}
