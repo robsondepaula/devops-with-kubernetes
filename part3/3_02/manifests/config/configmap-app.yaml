@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: main-app-config
+    namespace: main-namespace
+data:
+    svc_base_url: "http://main-svc.main-namespace"
+    svc_port: "2345"
+    app_port: "3001"
+    message: "Hello"
