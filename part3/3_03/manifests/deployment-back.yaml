@@ -13,10 +13,6 @@ spec:
       labels:
         app: project-svc
     spec:
-      volumes:
-        - name: img-data
-          persistentVolumeClaim:
-            claimName: project-volume-claim
       containers:
         - name: service-container
           image: BACKEND_IMAGE
@@ -24,8 +20,6 @@ spec:
             - secretRef:
                 name: db-password
           env:
-            - name: IMG_STORAGE
-              value: /data/images/
             - name: SVC_PORT
               valueFrom:
                 configMapKeyRef:
@@ -56,6 +50,3 @@ spec:
                 configMapKeyRef:
                   name: project-svc-config
                   key: POSTGRES_TABLE
-          volumeMounts:
-            - name: img-data
-              mountPath: /data

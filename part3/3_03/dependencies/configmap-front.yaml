@@ -5,4 +5,4 @@ metadata:
   namespace: project-namespace
 data:
   app.properties: |
-    window.API_URL= "http://project-svc.main-namespace/api"
+    window.API_URL= "/api"

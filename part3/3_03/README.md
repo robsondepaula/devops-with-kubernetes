@@ -5,13 +5,13 @@ Your current project has been set to: [dwk-gke-328814].
 ```
 After checking the lowest zone prices request the cluster creation. Number of nodes is specified to avoid having to request a quota increase:
 ```
-gcloud container clusters create dwk-cluster --zone=us-central1 --num-nodes 2
+gcloud container clusters create dwk-cluster --machine-type g1-small --zone=us-central1 --num-nodes 2
 ```
 Fetch credentials and update kubeconfig:
 ```
 gcloud container clusters get-credentials dwk-cluster --zone=us-central1
 ```
-## Step-by-step deployment to GKE
+## Step-by-step GKE setup
 1. Create the namespace
 ```
 kubectl apply -f dependencies/namespace.yaml
@@ -36,15 +36,22 @@ kubectl get secrets -n=project-namespace
 ```
 kubectl apply -k dependencies/.
 ```
-5. Make sure the dependencies are ready and only then deploy the project:
+5. Deploy NGINX Ingress Controller:
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install nginx-ingress ingress-nginx/ingress-nginx
+```
+## Step-by-step deployment to GKE
+1. Make sure the dependencies are ready and only then deploy the project:
 ```
 kubectl apply -k manifests/.
 ```
-6. Retrieve the external IP address (might take a while to be available):
+2. Retrieve the external IP address (might take a while to be available):
 ```
 kubectl get ingress project-ingress --output yaml -n=project-namespace
 ```
-7. Validate all is working well by navigating to http://35.201.124.48
+3. Validate all is working well by navigating to 35.226.117.207
 
 # Clean-up
 Avoid unnecessary costs when finished:
