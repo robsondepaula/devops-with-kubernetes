@@ -51,7 +51,7 @@ kubectl apply -k manifests/.
 ```
 kubectl get ingress project-ingress --output yaml -n=project-namespace
 ```
-3. Validate all is working well by navigating to 35.226.117.207
+3. Validate all is working well by navigating to http://35.226.117.207
 
 # Clean-up
 Avoid unnecessary costs when finished:
