@@ -32,29 +32,39 @@ Check it is available:
 ```
 kubectl get secrets -n=project-namespace
 ```
-4. Deploy the dependencies with kustomize:
+4. Create an address so that the frontend can call the backend:
+```
+gcloud compute addresses create project-ip --global
+``` 
+5. Deploy the dependencies with kustomize:
 ```
 kubectl apply -k dependencies/.
-```
-5. Deploy NGINX Ingress Controller:
-```
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-helm install nginx-ingress ingress-nginx/ingress-nginx
 ```
 ## Step-by-step deployment to GKE
 1. Make sure the dependencies are ready and only then deploy the project:
 ```
 kubectl apply -k manifests/.
 ```
-2. Retrieve the external IP address (might take a while to be available):
+2. Monitor that the ingress is available (might take a while):
 ```
 kubectl get ingress project-ingress --output yaml -n=project-namespace
 ```
-3. Validate all is working well by navigating to http://35.226.117.207
+3. Retrieve the project-ip translation:
+```
+gcloud compute addresses describe project-ip --global
+```
+4. Since we are not paying for a DNS we are going to use the local machine hosts file to do the work. On a \*nix based system edit */etc/hosts* and add the entry:
+```
+<value output by step 3>    project-ip
+```
+5. Validate all is working well by navigating to http://project-ip
 
 # Clean-up
 Avoid unnecessary costs when finished:
 ```
 gcloud container clusters delete dwk-cluster --zone=us-central1
+```
+And also dispose of the address:
+```
+gcloud compute addresses delete project-ip --global
 ```

@@ -5,9 +5,9 @@ const App = () => {
   const [image, setImage] = useState(undefined);
   const [todos, setTodos] = useState([]);
   const [newTodoValue, setNewTodo] = useState("");
-  const apiPrefix = window.API_PREFIX;
-  const imageApi = `${apiPrefix}/image`;
-  const todoApi = `${apiPrefix}/todos`;
+  const baseUrl = window.API_URL;
+  const imageApi = `${baseUrl}/image`;
+  const todoApi = `${baseUrl}/todos`;
 
   useEffect(() => {
     const imageEventHandler = (response) => {

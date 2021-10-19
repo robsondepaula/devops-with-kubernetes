@@ -69,6 +69,16 @@ const syncDb = async () => {
   dbReady = true;
 };
 
+app.get("/", (request, response) => {
+  // GKE requires health check
+  response.send("Up");
+});
+
+app.get("/healthz", (request, response) => {
+  // GKE requires health check
+  response.send("Up");
+});
+
 app.get("/image", async (request, response) => {
   await retrieveFileIfNeed();
   response.sendFile(filePath);
