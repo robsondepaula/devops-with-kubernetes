@@ -38,12 +38,12 @@ jobs:
       run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
     - name: Create image name and tag
-      run: echo "::set-env name=GCP_BACKEND_IMAGE::gcr.io/$PROJECT_ID/$BACKEND_IMAGE"
+      run: echo "gcp_backend_img=gcr.io/$PROJECT_ID/$BACKEND_IMAGE" >> $GITHUB_ENV
 
     - name: Build backend
-      run: docker build --tag "$GCP_BACKEND_IMAGE" .
+      run: docker build --tag "${{ gcp_backend_img }}" .
       working-directory: part3/3_03/
 
     - name: Publish backend
-      run: docker push "$GCP_BACKEND_IMAGE"
+      run: docker push "${{ gcp_backend_img }}"
       working-directory: part3/3_03/
