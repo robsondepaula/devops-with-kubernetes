@@ -41,9 +41,9 @@ jobs:
       run: echo "gcp_backend_img=gcr.io/$PROJECT_ID/$BACKEND_IMAGE" >> $GITHUB_ENV
 
     - name: Build backend
-      run: docker build --tag "${{ gcp_backend_img }}" .
+      run: docker build --tag "${{ env.gcp_backend_img }}" .
       working-directory: part3/3_03/
 
     - name: Publish backend
-      run: docker push "${{ gcp_backend_img }}"
+      run: docker push "${{ env.gcp_backend_img }}"
       working-directory: part3/3_03/
