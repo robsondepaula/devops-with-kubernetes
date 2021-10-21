@@ -68,7 +68,6 @@ jobs:
     - name: Set up dependencies
       run: |-
         kubectl apply -k .
-        kubectl get deploy --output name | xargs -n1 -t kubectl rollout status
       working-directory: part3/3_03/dependencies/
 
     - name: Deploy
