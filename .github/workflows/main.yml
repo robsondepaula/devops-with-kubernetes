@@ -1,0 +1,49 @@
+name: Deploy to GKE
+
+on:
+  push:
+    paths:
+      - 'part3/3_03/**'
+      - '!part3/3_03/project-service/**'
+      - '!part3/3_03/project/**'
+      - '!part3/3_03/secret/**'
+      - '!part3/3_03/README.md'
+
+env:
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: us-central1
+  BACKEND_IMAGE: project-service:3_03
+  FRONTEND_IMAGE: project:3_03
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Configure Google Container Registry
+      run: gcloud --quiet auth configure-docker
+
+    - name: Get Google Container Registry credentials
+      run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+    - name: Create image name and tag
+      run: echo "::set-env name=GCP_BACKEND_IMAGE::gcr.io/$PROJECT_ID/$BACKEND_IMAGE"
+
+    - name: Build backend
+      run: docker build --tag "$GCP_BACKEND_IMAGE" .
+      working-directory: part3/3_03/
+
+    - name: Publish backend
+      run: docker push "$GCP_BACKEND_IMAGE"
+      working-directory: part3/3_03/
