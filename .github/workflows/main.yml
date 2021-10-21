@@ -76,5 +76,6 @@ jobs:
         ./kustomize edit set image BACKEND_IMAGE="${{ env.gcp_backend_img }}"
         ./kustomize edit set image FRONTEND_IMAGE="${{ env.gcp_frontend_img }}"
         kubectl apply -k .
-        kubectl get deploy --output name | xargs -n1 -t kubectl rollout status
+        kubectl rollout status deployment $BACKEND_IMAGE
+        kubectl rollout status deployment $FRONTEND_IMAGE
       working-directory: part3/3_03/manifests/
