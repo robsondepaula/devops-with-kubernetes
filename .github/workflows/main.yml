@@ -42,8 +42,8 @@ jobs:
 
     - name: Build backend
       run: docker build --tag "${{ env.gcp_backend_img }}" .
-      working-directory: part3/3_03/
+      working-directory: part3/3_03/project-service/
 
     - name: Publish backend
       run: docker push "${{ env.gcp_backend_img }}"
-      working-directory: part3/3_03/
+      working-directory: part3/3_03/project-service/
