@@ -59,16 +59,17 @@ jobs:
       run: docker push "${{ env.gcp_frontend_img }}"
       working-directory: part3/3_03/project/
 
+    - name: Set up dependencies
+      run: |-
+        kubectl apply -k .
+      working-directory: part3/3_03/dependencies/
+
     - name: Set up Kustomize
       run: |-
         curl -OL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.4.0/kustomize_v4.4.0_linux_amd64.tar.gz
         tar xzvf kustomize_v4.4.0_linux_amd64.tar.gz
         chmod u+x ./kustomize
-
-    - name: Set up dependencies
-      run: |-
-        kubectl apply -k .
-      working-directory: part3/3_03/dependencies/
+      working-directory: part3/3_03/manifests/
 
     - name: Deploy
       run: |-
