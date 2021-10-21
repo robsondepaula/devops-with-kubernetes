@@ -37,7 +37,7 @@ jobs:
     - name: Get Google Container Registry credentials
       run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
-    - name: Create image name and tag
+    - name: Create backend image name and tag
       run: echo "gcp_backend_img=gcr.io/${{ secrets.GCP_PROJECT_ID }}/$BACKEND_IMAGE" >> $GITHUB_ENV
 
     - name: Build backend
@@ -47,3 +47,14 @@ jobs:
     - name: Publish backend
       run: docker push "${{ env.gcp_backend_img }}"
       working-directory: part3/3_03/project-service/
+
+    - name: Create frontend image name and tag
+      run: echo "gcp_frontend_img=gcr.io/${{ secrets.GCP_PROJECT_ID }}/$FRONTEND_IMAGE" >> $GITHUB_ENV
+
+    - name: Build frontend
+      run: docker build --tag "${{ env.gcp_frontend_img }}" .
+      working-directory: part3/3_03/project/
+
+    - name: Publish frontend
+      run: docker push "${{ env.gcp_frontend_img }}"
+      working-directory: part3/3_03/project/
