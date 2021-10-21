@@ -70,10 +70,12 @@ gcloud compute addresses delete project-ip --global
 ```
 
 # Github actions
-The setup and deploy steps are automated using Github actions, provided the clusters exist. Since we are trying to minimize costs, make sure you have run:
+The setup and deploy steps are automated using Github actions, provided the cluster exists. 
+
+Since we are trying to minimize costs, make sure you have run:
 ```
 gcloud container clusters create dwk-cluster --machine-type g1-small --zone=us-central1 --num-nodes 2
 ```
-Before triggering the Github workflow.
+Before triggering the Github workflow and that you have setup the namespace and secret. The remaining steps are on the workflow.
 
 When done, delete the cluster and the images uploaded to Google Container Registry.
