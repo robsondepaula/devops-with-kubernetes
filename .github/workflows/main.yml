@@ -38,7 +38,7 @@ jobs:
       run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
     - name: Create image name and tag
-      run: echo "gcp_backend_img=gcr.io/$PROJECT_ID/$BACKEND_IMAGE" >> $GITHUB_ENV
+      run: echo "gcp_backend_img=gcr.io/${{ secrets.GCP_PROJECT_ID }}/$BACKEND_IMAGE" >> $GITHUB_ENV
 
     - name: Build backend
       run: docker build --tag "${{ env.gcp_backend_img }}" .
