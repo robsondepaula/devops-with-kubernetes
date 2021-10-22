@@ -27,4 +27,5 @@ jobs:
 
     - name: Delete from cluster
       run: |-
+        kubectl delete all --all -n ${GITHUB_REF#refs/heads/}
         kubectl delete namespace ${GITHUB_REF#refs/heads/} || true
