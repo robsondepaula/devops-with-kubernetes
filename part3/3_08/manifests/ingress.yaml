@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: project-ingress
+  namespace: project-namespace
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: project-ip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: project-app
+            port:
+              number: 2345
+      - path: /image
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: project-svc
+            port:
+              number: 2346
+      - path: /todos
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: project-svc
+            port:
+              number: 2346
