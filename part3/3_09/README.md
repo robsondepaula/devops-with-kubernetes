@@ -5,7 +5,7 @@ Your current project has been set to: [dwk-gke-328814].
 ```
 After checking the lowest zone prices request the cluster creation. Number of nodes is specified to avoid having to request a quota increase:
 ```
-gcloud container clusters create dwk-cluster --zone=us-central1 --num-nodes 2
+gcloud container clusters create dwk-cluster --machine-type g1-small --zone=us-central1 --num-nodes 2
 ```
 Fetch credentials and update kubeconfig:
 ```

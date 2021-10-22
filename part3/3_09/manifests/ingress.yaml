@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: main-ingress
+  namespace: main-namespace
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: main-app
+            port:
+              number: 80
+      - path: /pingpong
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: main-svc
+            port:
+              number: 2345
