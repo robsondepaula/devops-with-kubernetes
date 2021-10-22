@@ -95,9 +95,9 @@ jobs:
         kubectl apply -k .
       working-directory: part3/3_04/secret
 
-    - name: Generate the config-back.yaml
+    - name: Generate the configmap-back.yaml
       run: |-
-        cat << EOF > config-back.yaml
+        cat << EOF > configmap-back.yaml
         apiVersion: v1
         kind: ConfigMap
         metadata:
