@@ -1,0 +1,30 @@
+name: Delete a deployment once its corresponding branch is deleted
+
+on:
+  delete:
+
+env:
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: us-central1
+  BACKEND_IMAGE: project-service:3_03
+  FRONTEND_IMAGE: project:3_03
+
+jobs:
+  build-publish-deploy:
+    name: Delete previous deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Delete from cluster
+      run: |-
+        kubectl delete namespace ${GITHUB_REF#refs/heads/} || true
