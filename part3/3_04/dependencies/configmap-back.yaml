@@ -4,7 +4,6 @@ metadata:
   name: project-svc-config
 data:
   SVC_PORT: "3001"
-  POSTGRES_HOST: "postgresql-db-svc.project-namespace"
   POSTGRES_PORT: "35432"
   POSTGRES_USER: "user"
   POSTGRES_DB: "project_db"

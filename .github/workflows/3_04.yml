@@ -90,7 +90,6 @@ jobs:
 
     - name: Seal it and apply
       run: |-
-        ls
         ./kubeseal -o yaml <secret.yaml> sealedsecret.yaml
         ../kustomize edit set namespace ${GITHUB_REF#refs/heads/}
         kubectl apply -k .
@@ -99,6 +98,7 @@ jobs:
     - name: Set up dependencies
       run: |-
         ../kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+        ../kustomize edit set data POSTGRES_HOST="postgresql-db-svc.${GITHUB_REF#refs/heads/}"
         kubectl apply -k .
       working-directory: part3/3_04/dependencies
 

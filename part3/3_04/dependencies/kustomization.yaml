@@ -6,4 +6,3 @@ resources:
 - configmap-front.yaml
 - service-pg.yaml
 - statefulset-pg.yaml
-namespace: main
