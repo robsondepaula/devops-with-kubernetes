@@ -15,6 +15,10 @@ gcloud container clusters get-credentials dwk-cluster --zone=us-central1
 ## Github actions
 On this exercise [3_04.yml](../../.github/workflows/3_04.yml) should fully automate the setup and deployment. The only requirement is that the cluster exists along with the service account.
 
+## Error when installing kubeseal to GKE from Github Actions
+
+Please check https://cloud.google.com/kubernetes-engine/docs/how-to/iam on how to fix it since it requires the role of Kubernetes Engine Admin.
+
 # Clean-up
 Avoid unnecessary costs when finished by deleting the images in the container registry. List them:
 ```
