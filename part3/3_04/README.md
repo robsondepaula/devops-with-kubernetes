@@ -11,6 +11,10 @@ Fetch credentials and update kubeconfig:
 ```
 gcloud container clusters get-credentials dwk-cluster --zone=us-central1
 ```
+Create an address so that the frontend can call the backend:
+```
+gcloud compute addresses create project-ip --global
+``` 
 
 ## Github actions
 On this exercise [3_04.yml](../../.github/workflows/3_04.yml) should fully automate the setup and deployment. The only requirement is that the cluster exists along with the service account.

@@ -95,10 +95,26 @@ jobs:
         kubectl apply -k .
       working-directory: part3/3_04/secret
 
+    - name: Generate the config-back.yaml
+      run: |-
+        cat << EOF > config-back.yaml
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: project-svc-config
+        data:
+          SVC_PORT: "3001"
+          POSTGRES_HOST: "postgresql-db-svc.${GITHUB_REF#refs/heads/}"
+          POSTGRES_PORT: "35432"
+          POSTGRES_USER: "user"
+          POSTGRES_DB: "project_db"
+          POSTGRES_TABLE: "project_table"
+        EOF
+      working-directory: part3/3_04/dependencies/
+  
     - name: Set up dependencies
       run: |-
         ../kustomize edit set namespace ${GITHUB_REF#refs/heads/}
-        ../kustomize edit set data POSTGRES_HOST="postgresql-db-svc.${GITHUB_REF#refs/heads/}"
         kubectl apply -k .
       working-directory: part3/3_04/dependencies
 
