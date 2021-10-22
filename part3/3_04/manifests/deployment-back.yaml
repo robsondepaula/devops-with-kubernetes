@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: project-svc-dep
-  namespace: project-namespace
 spec:
   replicas: 1
   selector:

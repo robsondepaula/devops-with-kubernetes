@@ -57,22 +57,53 @@ jobs:
       run: docker push "${{ env.gcp_frontend_img }}"
       working-directory: part3/3_03/project/
 
-    - name: Set up dependencies
+    - name: Set up Kubeseal
       run: |-
-        kubectl apply -k .
-      working-directory: part3/3_04/dependencies/
+        kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
 
     - name: Set up Kustomize
       run: |-
         curl -OL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.4.0/kustomize_v4.4.0_linux_amd64.tar.gz
         tar xzvf kustomize_v4.4.0_linux_amd64.tar.gz
         chmod u+x ./kustomize
-      working-directory: part3/3_04/manifests/
+      working-directory: part3/3_04/
+
+    - name: Create the namespace
+      run: |-
+        kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+
+    - name: Generate the secret.yaml
+      run: |-
+        cat << EOF > secret.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: db-password
+        data:
+          POSTGRES_PASSWORD: ${{ secrets.DB_PWD_B64 }}
+        EOF
+      working-directory: part3/3_04/secret/
+
+    - name: Seal it and apply
+      run: |-
+        kubeseal -o yaml <secret.yaml> sealedsecret.yaml
+        ../kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+        kubectl apply -k .
+      working-directory: part3/3_04/secret
+
+    - name: Set up dependencies
+      run: |-
+        ../kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+        kubectl apply -k .
+      working-directory: part3/3_04/dependencies
+
 
     - name: Deploy
       run: |-
-        ./kustomize edit set image BACKEND_IMAGE="${{ env.gcp_backend_img }}"
-        ./kustomize edit set image FRONTEND_IMAGE="${{ env.gcp_frontend_img }}"
+        ../kustomize edit set image BACKEND_IMAGE="${{ env.gcp_backend_img }}"
+        ../kustomize edit set image FRONTEND_IMAGE="${{ env.gcp_frontend_img }}"
+        ../kustomize edit set namespace ${GITHUB_REF#refs/heads/}
         kubectl apply -k .
         kubectl rollout status deployment project-svc-dep -n=project-namespace
         kubectl rollout status deployment project-app-dep -n=project-namespace

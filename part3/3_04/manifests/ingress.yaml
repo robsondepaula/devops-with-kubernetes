@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: project-ingress
-  namespace: project-namespace
   annotations:
     kubernetes.io/ingress.global-static-ip-name: project-ip
 spec:

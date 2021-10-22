@@ -13,58 +13,18 @@ gcloud container clusters get-credentials dwk-cluster --zone=us-central1
 ```
 
 ## Github actions
-On this exercise [3_04.yml](../../.github/workflows/3_04.yml) should fully automate the setup and deployement. The pnly requirement is that the cluster exists along with the service account.
-
-## Step-by-step GKE setup
-1. Create the namespace
-```
-kubectl apply -f dependencies/namespace.yaml
-```
-2. Install SealedSecret CRD, server-side controller into kube-system namespace
-```
-kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
-```
-3. Generate the sealed secret:
-```
-kubeseal -o yaml <secret/secret.yaml> secret/sealedsecret.yaml
-```
-Apply it so that it becomes available for usage in the cluster:
-```
-kubectl apply -f secret/sealedsecret.yaml
-```
-Check it is available:
-```
-kubectl get secrets -n=project-namespace
-```
-4. Create an address so that the frontend can call the backend:
-```
-gcloud compute addresses create project-ip --global
-``` 
-5. Deploy the dependencies with kustomize:
-```
-kubectl apply -k dependencies/.
-```
-## Step-by-step deployment to GKE
-1. Make sure the dependencies are ready and only then deploy the project:
-```
-kubectl apply -k manifests/.
-```
-2. Monitor that the ingress is available (might take a while):
-```
-kubectl get ingress project-ingress --output yaml -n=project-namespace
-```
-3. Retrieve the project-ip translation:
-```
-gcloud compute addresses describe project-ip --global
-```
-4. Since we are not paying for a DNS we are going to use the local machine hosts file to do the work. On a \*nix based system edit */etc/hosts* and add the entry:
-```
-<value output by step 3>    project-ip
-```
-5. Validate all is working well by navigating to http://project-ip
+On this exercise [3_04.yml](../../.github/workflows/3_04.yml) should fully automate the setup and deployment. The only requirement is that the cluster exists along with the service account.
 
 # Clean-up
-Avoid unnecessary costs when finished:
+Avoid unnecessary costs when finished by deleting the images in the container registry. List them:
+```
+gcloud container images list --repository=gcr.io/dwk-gke-328814
+```
+And delete with:
+```
+gcloud container images delete [HOSTNAME]/[PROJECT-ID]/[IMAGE]@[IMAGE_DIGEST]
+```
+The cluster itself:
 ```
 gcloud container clusters delete dwk-cluster --zone=us-central1
 ```
@@ -72,14 +32,3 @@ And also dispose of the address:
 ```
 gcloud compute addresses delete project-ip --global
 ```
-
-# Github actions
-The setup and deploy steps are automated using Github actions, provided the cluster exists. 
-
-Since we are trying to minimize costs, make sure you have run:
-```
-gcloud container clusters create dwk-cluster --machine-type g1-small --zone=us-central1 --num-nodes 2
-```
-Before triggering the Github workflow and that you have setup the namespace and secret. The remaining steps are on the workflow.
-
-When done, delete the cluster and the images uploaded to Google Container Registry.
