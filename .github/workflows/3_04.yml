@@ -57,9 +57,12 @@ jobs:
       run: docker push "${{ env.gcp_frontend_img }}"
       working-directory: part3/3_03/project/
 
-    - name: Set up Kubeseal
+    - name: Set up Kubeseal client and server-side SealedSecret CRD 
       run: |-
+        wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64 -O kubeseal
+        chmod u+x ./kubeseal
         kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/controller.yaml
+      working-directory: part3/3_04/secret
 
     - name: Set up Kustomize
       run: |-
