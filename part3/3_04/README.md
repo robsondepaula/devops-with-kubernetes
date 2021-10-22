@@ -19,6 +19,8 @@ gcloud compute addresses create project-ip --global
 ## Github actions
 On this exercise [3_04.yml](../../.github/workflows/3_04.yml) should fully automate the setup and deployment. The only requirement is that the cluster exists along with the service account.
 
+Validate all is working well by navigating to http://project-ip.
+
 ## Error when installing kubeseal to GKE from Github Actions
 
 Please check https://cloud.google.com/kubernetes-engine/docs/how-to/iam on how to fix it since it requires the role of Kubernetes Engine Admin.
