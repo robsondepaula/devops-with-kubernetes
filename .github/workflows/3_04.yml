@@ -1,0 +1,79 @@
+name: Deploy to GKE, branch name used as k8s namespace
+
+on:
+  push:
+    paths:
+      - 'part3/3_04/**'
+      - '!part3/3_04/secret/**'
+      - '!part3/3_04/README.md'
+
+env:
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: us-central1
+  BACKEND_IMAGE: project-service:3_03
+  FRONTEND_IMAGE: project:3_03
+
+jobs:
+  build-publish-deploy:
+    name: Build, Publish and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Configure Google Container Registry
+      run: gcloud --quiet auth configure-docker
+
+    - name: Get Google Container Registry credentials
+      run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+    - name: Create backend image name and tag
+      run: echo "gcp_backend_img=gcr.io/${{ secrets.GCP_PROJECT_ID }}/$BACKEND_IMAGE" >> $GITHUB_ENV
+
+    - name: Build backend (no code change since previous exercise)
+      run: docker build --tag "${{ env.gcp_backend_img }}" .
+      working-directory: part3/3_03/project-service/
+
+    - name: Publish backend
+      run: docker push "${{ env.gcp_backend_img }}"
+      working-directory: part3/3_03/project-service/
+
+    - name: Create frontend image name and tag
+      run: echo "gcp_frontend_img=gcr.io/${{ secrets.GCP_PROJECT_ID }}/$FRONTEND_IMAGE" >> $GITHUB_ENV
+
+    - name: Build frontend (no code change since previous exercise)
+      run: docker build --tag "${{ env.gcp_frontend_img }}" .
+      working-directory: part3/3_03/project/
+
+    - name: Publish frontend 
+      run: docker push "${{ env.gcp_frontend_img }}"
+      working-directory: part3/3_03/project/
+
+    - name: Set up dependencies
+      run: |-
+        kubectl apply -k .
+      working-directory: part3/3_04/dependencies/
+
+    - name: Set up Kustomize
+      run: |-
+        curl -OL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.4.0/kustomize_v4.4.0_linux_amd64.tar.gz
+        tar xzvf kustomize_v4.4.0_linux_amd64.tar.gz
+        chmod u+x ./kustomize
+      working-directory: part3/3_04/manifests/
+
+    - name: Deploy
+      run: |-
+        ./kustomize edit set image BACKEND_IMAGE="${{ env.gcp_backend_img }}"
+        ./kustomize edit set image FRONTEND_IMAGE="${{ env.gcp_frontend_img }}"
+        kubectl apply -k .
+        kubectl rollout status deployment project-svc-dep -n=project-namespace
+        kubectl rollout status deployment project-app-dep -n=project-namespace
+      working-directory: part3/3_04/manifests/
