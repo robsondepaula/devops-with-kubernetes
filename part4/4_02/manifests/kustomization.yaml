@@ -8,6 +8,6 @@ resources:
   - deployment-front.yaml
 images:
   - name: BACKEND_IMAGE
-    newName: robsondepaula/project-service:3_03
+    newName: robsondepaula/project-service:4_02
   - name: FRONTEND_IMAGE
-    newName: robsondepaula/project:3_03
+    newName: robsondepaula/project:4_02

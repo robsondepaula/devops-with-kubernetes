@@ -16,6 +16,7 @@ spec:
       containers:
         - name: service-container
           image: BACKEND_IMAGE
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: db-password

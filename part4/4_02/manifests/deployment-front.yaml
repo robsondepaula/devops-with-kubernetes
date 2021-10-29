@@ -20,6 +20,7 @@ spec:
               - name: config #override config.js file
                 mountPath: "/usr/share/nginx/html/config.js"
                 subPath: "config.js"
+          imagePullPolicy: Always
       volumes:
           - name: config
             configMap:
