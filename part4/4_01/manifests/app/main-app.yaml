@@ -4,7 +4,7 @@ metadata:
   name: main-app
   namespace: main-namespace
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: main-app
   ports:

@@ -8,14 +8,14 @@ spec:
   - http:
       paths:
       - path: /
-        pathType: ImplementationSpecific
+        pathType: Prefix
         backend:
           service:
             name: main-app
             port:
               number: 80
       - path: /pingpong
-        pathType: ImplementationSpecific
+        pathType: Prefix
         backend:
           service:
             name: main-svc

@@ -21,5 +21,5 @@ docker push robsondepaula/pingpong:4_01
 ```
 # Health check
 ```
-curl http://localhost:3000/healthz
+curl http://localhost:3000/pingpong/healthz
 ```
