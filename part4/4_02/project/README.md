@@ -10,11 +10,15 @@ To build it for deployment and containerization:
 npm run build
 ```
 Outputs to the `build` folder.
+
+## Health check page
+Open [http://localhost:3000/healthz](http://localhost:3000/healthz)
+
 # Building the image
 ```
-docker build . -t robsondepaula/project:3_03
+docker build . -t robsondepaula/project:4_02
 ```
 # Publish to Docker Hub
 ```
-docker push robsondepaula/project:3_03
+docker push robsondepaula/project:4_02
 ```
