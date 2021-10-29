@@ -30,7 +30,6 @@ app.get("/healthz", async (request, response) => {
     await axios.get(reqUrl);
     response.status(200).send('Up!');
   } catch (err) {
-    console.log(err);
     response.status(500).send('Not ready!');;
   }
 });

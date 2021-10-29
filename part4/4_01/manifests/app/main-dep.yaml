@@ -4,7 +4,7 @@ metadata:
   name: main-dep
   namespace: main-namespace
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: main-app
@@ -16,12 +16,15 @@ spec:
       containers:
         - name: main-container
           image: robsondepaula/main-app:4_01
-          # readinessProbe:
-          #  initialDelaySeconds: 10
-          #  periodSeconds: 5
-          #  httpGet:
-          #     path: /healthz
-          #     port: 80
+          imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            successThreshold: 1
+            httpGet:
+              path: /healthz
+              port: 3001
           env:
             - name: SVC_BASE_URL
               valueFrom:
@@ -45,12 +48,14 @@ spec:
                   key: message
         - name: pingpong-container
           image: robsondepaula/pingpong:4_01
-          #readinessProbe:
-          #  initialDelaySeconds: 10
-          #  periodSeconds: 5
-          #  httpGet:
-          #     path: /pingpong/healthz
-          #     port: 80
+          imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            httpGet:
+              path: /pingpong/healthz
+              port: 3000
           envFrom:
           - secretRef:
               name: db-password

@@ -56,4 +56,7 @@ kubectl apply -f manifests/ingress.yaml
 ```
 watch -n 1 "kubectl get po -n=main-namespace" 
 ```
-
+### End to end testing
+```
+curl http://localhost:8081/
+```
