@@ -5,7 +5,7 @@ mkdir -p /tmp/kube
 ```
 Command used to create the cluster (if not already):
 ```
-k3d cluster create --volume /tmp/kube:/tmp/kube -p 8081:80@loadbalancer --agents 2
+k3d cluster create --volume /tmp/kube:/tmp/kube -p "8081:80@loadbalancer" --agents 2
 ```
 Create the local volme binding (if not exist):
 ```
@@ -16,10 +16,12 @@ docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
 ```
 kubectl apply -f dependencies/namespace.yaml
 ```
-2. Install SealedSecret CRD, server-side controller into kube-system namespace
+2. Add the helm chart (if not yet):
 ```
 helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
-
+```
+And install SealedSecret CRD, server-side controller into kube-system namespace:
+```
 helm install sealed-secrets --namespace kube-system --version 1.16.1 sealed-secrets/sealed-secrets
 ```
 3. Generate the sealed secret:
