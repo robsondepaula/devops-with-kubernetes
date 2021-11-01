@@ -3,19 +3,19 @@ kind: Ingress
 metadata:
   name: project-ingress
   annotations:
-    traefik.ingress.kubernetes.io/rule-type: "PathPrefixStrip"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /()(.*)
         pathType: Prefix
         backend:
           service:
             name: front-svc
             port:
               number: 2345
-      - path: /api
+      - path: /api(/|$)(.*)
         pathType: Prefix
         backend:
           service:
