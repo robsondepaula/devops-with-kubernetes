@@ -8,13 +8,6 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: main-svc
-            port:
-              number: 2345
       - path: /pingpong
         pathType: Prefix
         backend:
