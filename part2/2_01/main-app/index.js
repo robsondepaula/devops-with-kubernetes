@@ -1,10 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 const express = require("express");
 const axios = require("axios");
+require('dotenv').config();
 
 const app = express();
 
-const reqUrl = `http://localhost:3000`;
+const reqUrl = `${process.env.SVC_BASE_URL}:${process.env.SVC_PORT}`;
 
 app.get("/", async (request, response) => {
   let log = "failed to retrieve data";
@@ -21,7 +22,7 @@ app.get("/", async (request, response) => {
 });
 
 const randomString = uuidv4();
-const PORT = 3001;
+const PORT = process.env.APP_PORT;
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`);
 });

@@ -15,5 +15,12 @@ spec:
       containers:
         - name: main-container
           image: robsondepaula/main-app:2_01
+          env:
+          - name: SVC_BASE_URL
+            value: "http://localhost"
+          - name: SVC_PORT
+            value: "3000"
+          - name: APP_PORT
+            value: "3001"
         - name: pingpong-container
           image: robsondepaula/pingpong:2_01

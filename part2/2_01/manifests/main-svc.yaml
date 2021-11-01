@@ -11,3 +11,7 @@ spec:
       protocol: TCP
       port: 2345
       targetPort: 3001
+    - name: pingpongport
+      port: 2346
+      protocol: TCP
+      targetPort: 3000
