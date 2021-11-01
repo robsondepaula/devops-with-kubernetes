@@ -3,7 +3,7 @@ import axios from "axios";
 
 const App = () => {
   const [image, setImage] = useState(undefined);
-  const reqUrl = `http://localhost:3001`;
+  const reqUrl = window.API_URL;
 
   useEffect(() => {
     const eventHandler = (response) => {

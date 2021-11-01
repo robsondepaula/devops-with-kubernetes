@@ -24,3 +24,6 @@ Verify pod is running:
 kubectl get pods
 ```
 Once the pod is on running state, ppen [http://localhost:8081](http://localhost:8081) to view it in the browser.
+
+# Notice
+Since I have designed the "project" to be a React.JS frontend with a Node.JS backend there was no clean way to reach the shared volume fom React. Due to this reason I went ahead and implemented the frontend to backend communication using an API.

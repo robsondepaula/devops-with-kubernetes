@@ -16,6 +16,12 @@ spec:
       - name: shared-data
         persistentVolumeClaim:
           claimName: local-claim
+      - name: config
+        configMap:
+          name: project-app-config
+          items:
+            - key: "app.properties"
+              path: "config.js"
       containers:
         - name: project-app
           image: robsondepaula/project:1_13
@@ -24,6 +30,9 @@ spec:
           volumeMounts: 
           - name: shared-data
             mountPath: /data
+          - name: config #override config.js file
+            mountPath: "/usr/share/nginx/html/config.js"
+            subPath: "config.js"
         - name: project-service
           image: robsondepaula/project-service:1_13
           ports:

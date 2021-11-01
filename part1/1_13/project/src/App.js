@@ -5,7 +5,7 @@ const App = () => {
   const [image, setImage] = useState(undefined);
   const [todos, setTodos] = useState([]);
   const [newTodoValue, setNewTodo] = useState("");
-  const reqUrl = `http://localhost:3001`;
+  const reqUrl = window.API_URL;
 
   useEffect(() => {
     const eventHandler = (response) => {
