@@ -82,7 +82,7 @@ app.get("/", async (request, response) => {
 
 app.get("/todos", async (request, response) => {
   if (!dbReady) {
-    return response.status(503);
+    return response.status(503).send("Not ready");;
   }
   const todos = await Todos.findAll();
 
@@ -91,7 +91,7 @@ app.get("/todos", async (request, response) => {
 
 app.post("/todos", async (request, response) => {
   if (!dbReady) {
-    return response.status(503);
+    return response.status(503).send("Not ready");
   }
   const body = request.body;
 
