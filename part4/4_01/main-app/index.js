@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-const reqUrl = `${process.env.SVC_BASE_URL}:${process.env.SVC_PORT}/pingpong`;
+const reqUrl = `${process.env.SVC_BASE_URL}:${process.env.SVC_PORT}`;
 
 const message = `${process.env.MESSAGE}`;
 

@@ -54,7 +54,7 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 10
             httpGet:
-              path: /pingpong/healthz
+              path: /healthz
               port: 3000
           envFrom:
           - secretRef:

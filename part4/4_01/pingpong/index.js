@@ -15,7 +15,7 @@ const syncDb = async () => {
   dbReady = true;
 };
 
-app.get("/pingpong", async (request, response) => {
+app.get("/", async (request, response) => {
   if (!dbReady) {
     response.status(503).send('Not ready!');
   } else {
@@ -34,7 +34,7 @@ app.get("/pingpong", async (request, response) => {
   }
 });
 
-app.get("/pingpong/healthz", async (request, response) => {
+app.get("/healthz", async (request, response) => {
   if (!dbReady) {
     response.status(500).send('Not ready!');
   } else {

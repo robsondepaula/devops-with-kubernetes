@@ -9,7 +9,7 @@ node index.js
 ```
 Make a request:
 ```
-curl http://localhost:3000/pingpong
+curl http://localhost:3000/
 ```
 # Building the image
 ```
@@ -21,5 +21,5 @@ docker push robsondepaula/pingpong:4_01
 ```
 # Health check
 ```
-curl http://localhost:3000/pingpong/healthz
+curl http://localhost:3000/healthz
 ```
