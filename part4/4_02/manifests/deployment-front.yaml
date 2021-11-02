@@ -21,6 +21,13 @@ spec:
                 mountPath: "/usr/share/nginx/html/config.js"
                 subPath: "config.js"
           imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            httpGet:
+              path: /healthz
+              port: 80
       volumes:
           - name: config
             configMap:

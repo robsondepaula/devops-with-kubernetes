@@ -17,6 +17,14 @@ spec:
         - name: service-container
           image: BACKEND_IMAGE
           imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            successThreshold: 1
+            httpGet:
+              path: /healthz
+              port: 3001
           envFrom:
             - secretRef:
                 name: db-password
