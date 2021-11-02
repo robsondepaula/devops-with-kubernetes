@@ -7,7 +7,7 @@ Command used to create the cluster (if not already):
 ```
 k3d cluster create --volume /tmp/kube:/tmp/kube -p "8081:80@loadbalancer" --agents 2
 ```
-Create the local volme binding (if not exist):
+Create the local volume binding (if not exist):
 ```
 docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
 ```

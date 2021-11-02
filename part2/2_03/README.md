@@ -1,4 +1,4 @@
-Create the local directory (if not exists):
+Create the local directory (if not exist):
 ```
 mkdir -p /tmp/kube
 ```
@@ -6,7 +6,7 @@ Create the cluster with no ingress controller and with a loadbalancer routing to
 ```
 k3d cluster create --k3s-arg "--disable=traefik@server:0" --volume /tmp/kube:/tmp/kube -p 8081:80@loadbalancer --agents 2
 ```
-Create the local volme binding (if not exists):
+Create the local volume binding (if not exist):
 ```
 docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
 ```
