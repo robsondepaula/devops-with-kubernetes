@@ -3,7 +3,10 @@ kind: Ingress
 metadata:
   name: main-ingress
   namespace: main-namespace
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
@@ -14,3 +17,10 @@ spec:
             name: main-svc
             port:
               number: 2345
+      - path: /pingpong
+        pathType: Prefix
+        backend:
+          service:
+            name: main-svc
+            port:
+              number: 2346
