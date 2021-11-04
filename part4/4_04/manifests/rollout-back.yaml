@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: project-svc-rol
+  namespace: project-namespace
+spec:
+  replicas: 4
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: project-svc-dep
+  strategy:
+    canary:
+      steps:
+      - setWeight: 25
+      analysis:
+        templates:
+        - templateName: cpu-usage-at
+  

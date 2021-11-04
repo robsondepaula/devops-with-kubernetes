@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: cpu-usage-at
+  namespace: project-namespace
+spec:
+  metrics:
+    - name: cpu-usage
+      interval: 10m # Change to 10m after local validation
+      successCondition: result < 0.5 # This project has modest resource usage, when verifying the failure change to a safe value
+      provider:
+        prometheus:
+          address: http://prometheus-kube-prometheus-stack-1636-prometheus-0.prometheus.svc:9090 
+          query: |
+            scalar(sum(rate(container_cpu_usage_seconds_total{namespace="project-namespace"}[1m])) / sum(machine_cpu_cores) * 100)
