@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-svc-dep
+  namespace: project-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-svc
+  template:
+    metadata:
+      labels:
+        app: project-svc
+    spec:
+      containers:
+        - name: service-container
+          image: BACKEND_IMAGE
+          imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            successThreshold: 1
+            httpGet:
+              path: /healthz
+              port: 3001
+          envFrom:
+            - secretRef:
+                name: db-password
+          env:
+            - name: SVC_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: SVC_PORT
+            - name: POSTGRES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: POSTGRES_PORT
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: POSTGRES_USER
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_TABLE
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: POSTGRES_TABLE

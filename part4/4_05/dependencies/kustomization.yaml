@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - configmap-pg.yaml
+  - configmap-back.yaml
+  - configmap-front.yaml
+  - service-pg.yaml
+  - statefulset-pg.yaml

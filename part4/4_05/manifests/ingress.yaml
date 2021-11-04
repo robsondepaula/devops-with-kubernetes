@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: project-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  namespace: project-namespace
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /()(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: project-app
+            port:
+              number: 2345
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: project-svc
+            port:
+              number: 2346
