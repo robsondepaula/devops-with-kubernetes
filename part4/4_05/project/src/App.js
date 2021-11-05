@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Switch, Route } from "react-router-dom";
+import Todo from "./components/Todo";
 
 const App = () => {
   const [image, setImage] = useState(undefined);
@@ -41,6 +42,30 @@ const App = () => {
       setNewTodo("");
     });
   };
+
+  const handleTodoStatus = async (id, done) => {
+    console.log(`update status ${id} from ${done} to ${!done}`);
+
+    const todoObject = {
+      id: id,
+      done: `${!done}`,
+    };
+
+    const updateTodo = {
+      id: id,
+      done: !done,
+    };
+
+    axios.put(todoApi, todoObject).then((response) => {
+      const newTodos = [...todos];
+      const foundIndex = newTodos.findIndex((item) => item.id === id);
+      updateTodo.content = newTodos[foundIndex].content;
+      newTodos[foundIndex] = updateTodo;
+
+      setTodos(newTodos);
+    });
+  };
+
   // the order is important for the path resolution
   return (
     <Switch>
@@ -68,7 +93,12 @@ const App = () => {
           </div>
           <ul>
             {todos.map((todo) => (
-              <li key={todo.id}>{todo.content}</li>
+              <Todo
+                id={todo.id}
+                content={todo.content}
+                done={todo.done}
+                handleTodoStatus={() => handleTodoStatus(todo.id, todo.done)}
+              />
             ))}
           </ul>
         </div>

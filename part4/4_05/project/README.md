@@ -16,9 +16,9 @@ Open [http://localhost:3000/healthz](http://localhost:3000/healthz)
 
 # Building the image
 ```
-docker build . -t robsondepaula/project:4_04
+docker build . -t robsondepaula/project:4_05
 ```
 # Publish to Docker Hub
 ```
-docker push robsondepaula/project:4_04 s
+docker push robsondepaula/project:4_05
 ```
