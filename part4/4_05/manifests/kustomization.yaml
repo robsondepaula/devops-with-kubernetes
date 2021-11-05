@@ -10,6 +10,6 @@ resources:
   - rollout-back.yaml
 images:
   - name: BACKEND_IMAGE
-    newName: robsondepaula/project-service:4_04
+    newName: robsondepaula/project-service:4_05
   - name: FRONTEND_IMAGE
-    newName: robsondepaula/project:4_02
+    newName: robsondepaula/project:4_05
