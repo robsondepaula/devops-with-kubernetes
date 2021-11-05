@@ -19,6 +19,10 @@ const Todos = sequelize.define(
     content: {
       type: Sequelize.STRING(140),
     },
+    done: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
   },
   {
     freezeTableName: true, // avoid automatic plural of definitions
