@@ -40,23 +40,11 @@ kubectl apply -f dependencies/
 ```
 kubectl apply -f manifests/namespace.yaml
 ```
-2. Add the helm chart (if not yet):
+2. Follow instructions on [2_05](../2_05) to obtain the secret.yaml having the security key pair (or to create all of it).
+
+Apply the secret (not version controlled) so that it becomes available for usage in the cluster:
 ```
-helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets
-```
-And install SealedSecret CRD, server-side controller into kube-system namespace:
-```
-helm install sealed-secrets --namespace kube-system --version 1.16.1 sealed-secrets/sealed-secrets
-```
-3. Generate the sealed secret:
-```
-kubeseal --controller-namespace kube-system \
-    --controller-name sealed-secrets \
-    -o yaml <secret/secret.yaml> secret/sealedsecret.yaml
-```
-Apply it so that it becomes available for usage in the cluster:
-```
-kubectl apply -f secret/sealedsecret.yaml
+kubectl apply -f secret/secret.yaml
 ```
 Check it is available:
 ```
