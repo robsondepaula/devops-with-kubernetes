@@ -1,0 +1,15 @@
+PUT http://localhost:3001/todos
+Content-Type: application/json
+
+{
+    "id": 1,
+    "done": "true"
+}
+###
+PUT http://localhost:3001/todos
+Content-Type: application/json
+
+{
+    "id": 1,
+    "done": "false"
+}
