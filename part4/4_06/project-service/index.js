@@ -4,6 +4,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
+const { connect } = require("nats");
 
 const directory = path.join("/", "tmp");
 const filePath = path.join(directory, `todays-image.jpg`);
@@ -13,7 +14,9 @@ app.use(cors());
 app.use(express.json());
 
 const { Todos } = require("./models");
-let dbReady = false;
+let initReady = false;
+
+let natsConnection;
 
 const fileAlreadyExists = async () => {
   return new Promise((res) => {
@@ -61,12 +64,30 @@ const retrieveFileIfNeed = async () => {
   }
 };
 
-const syncDb = async () => {
+const init = async () => {
   await Todos.sync();
 
   console.log("Model synchronized successfully, DB can now be used.");
 
-  dbReady = true;
+  initReady = true;
+};
+
+const sendMessageToNATS = async (todo, created) => {
+  try {
+    natsConnection = await connect({
+      servers: [process.env.NATS_URL],
+    });
+
+    console.log("Connected to NATS.");
+
+    console.log(
+      `Publish message with ${todo} for ${
+        created ? "create" : "update"
+      } operation.`
+    );
+  } catch (error) {
+    console.log("Could not connect to NATS!");
+  }
 };
 
 app.get("/healthz", (request, response) => {
@@ -79,7 +100,7 @@ app.get("/image", async (request, response) => {
 });
 
 app.get("/todos", async (request, response) => {
-  if (!dbReady) {
+  if (!initReady) {
     response.status(503).send("Not ready");
   } else {
     const todos = await Todos.findAll();
@@ -89,7 +110,7 @@ app.get("/todos", async (request, response) => {
 });
 
 app.post("/todos", async (request, response) => {
-  if (!dbReady) {
+  if (!initReady) {
     response.status(503).send("Not ready");
   } else {
     const body = request.body;
@@ -104,12 +125,14 @@ app.post("/todos", async (request, response) => {
       content: body.content,
     });
 
+    sendMessageToNATS(todo, true);
+
     response.json(todo);
   }
 });
 
 app.put("/todos", async (request, response) => {
-  if (!dbReady) {
+  if (!initReady) {
     response.status(503).send("Not ready");
   } else {
     const body = request.body;
@@ -131,6 +154,8 @@ app.put("/todos", async (request, response) => {
       { where: { id: body.id } }
     );
 
+    sendMessageToNATS(todo, false);
+
     response.json(todo);
   }
 });
@@ -140,7 +165,7 @@ app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`);
 });
 
-syncDb();
+init();
 
 // fetch once when spun up
 retrieveFileIfNeed();

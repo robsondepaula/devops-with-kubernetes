@@ -10,3 +10,16 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+  nats:
+    image: nats
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+    command: "-c /etc/nats/nats.conf --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+    volumes:
+      - ./nats.conf:/etc/nats/nats.conf
+    networks: ["nats"]
+
+networks:
+  nats:
+    name: nats
