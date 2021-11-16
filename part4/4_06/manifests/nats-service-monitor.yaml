@@ -4,7 +4,7 @@ metadata:
   name: monitoring-nats
   namespace: prometheus
   labels:
-    release: kube-prometheus-stack-1636898057 # updates at each cluster setup
+    release: kube-prometheus-stack-1637075239 # updates at each cluster setup
 spec:
   selector:
     matchLabels:
@@ -15,4 +15,4 @@ spec:
       port: metrics
   namespaceSelector:
     matchNames:
-      - default
+      - project-namespace

@@ -18,7 +18,7 @@ Access http://localhost:9090 and perform the necessary queries.
 count(count by (uid) (kube_pod_info{namespace="prometheus", created_by_kind="StatefulSet"}))
 ```
 
-## Expose Grafana (optional for this exercise)
+## Expose Grafana (optional for this part)
 Find the Grafana pod and port forward to it:
 ```
 kubectl get po -n prometheus | grep grafana | awk '{print $1}' | read grafana; kubectl -n prometheus port-forward $grafana 3000
@@ -30,7 +30,7 @@ admin
 ```
 prom-operator
 ```
-## Add Loki (optional for this exercise)
+## Add Loki (optional for this part)
 ```
 kubectl create namespace loki-stack
 ```

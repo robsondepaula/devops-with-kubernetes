@@ -63,6 +63,10 @@ Update the label on the manifest and then deploy the service monitor:
 ```
 kubectl apply -f manifests/nats-service-monitor.yaml
 ```
+Check it is available:
+```
+kubectl get servicemonitors -A
+```
 Find the Prometheus Operator pod and port forward to it:
 ```
 kubectl get po -n prometheus | grep prometheus-kube-prometheus-stack | awk '{print $1}' | read operator; kubectl -n prometheus port-forward $operator 9090:9090
@@ -114,10 +118,4 @@ kubectl apply -k manifests/.
 ```
 watch -n 1 "kubectl get po -n=project-namespace"
 ```
-3. Verify the Argo Rollouts is behaving as intended (check Kubectl Plugin Installation):
-```
-kubectl argo rollouts dashboard
-```
-And visit http://localhost:3100.
-
-Once the pods are on running state, open http://localhost:8081 to view the rolled out project in the browser.
+3. Verify frontend, backend and messaging is working properly.
