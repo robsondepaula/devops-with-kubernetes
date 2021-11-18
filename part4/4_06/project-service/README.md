@@ -14,9 +14,9 @@ curl http://localhost:3001/todos
 
 # Building the image
 ```
-docker build . -t robsondepaula/project-service:4_05
+docker build . -t robsondepaula/project-service:4_06
 ```
 # Publish to Docker Hub
 ```
-docker push robsondepaula/project-service:4_05
+docker push robsondepaula/project-service:4_06
 ```
