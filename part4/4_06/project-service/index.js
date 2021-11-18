@@ -4,7 +4,7 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 require("dotenv").config();
-const { connect } = require("nats");
+const { connect, JSONCodec } = require("nats");
 
 const directory = path.join("/", "tmp");
 const filePath = path.join(directory, `todays-image.jpg`);
@@ -78,17 +78,18 @@ const sendMessageToNATS = async (todo, created) => {
       servers: [process.env.NATS_URL],
     });
 
-    console.log("Connected to NATS.");
-
-    console.log(
-      `Publish message with Todo having content as '${
-        todo.content
-      }' and 'done=${todo.done}' for ${
-        created ? "create" : "update"
-      } operation.`
+    const jc = JSONCodec();
+    natsConnection.publish(
+      "updates",
+      jc.encode({
+        content: todo.content,
+        done: todo.done,
+        operation: created ? "create" : "update",
+      })
     );
   } catch (error) {
     console.log("Could not connect to NATS!");
+    console.log(error);
   }
 };
 
