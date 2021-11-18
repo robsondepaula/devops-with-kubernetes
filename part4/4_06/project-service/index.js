@@ -81,7 +81,9 @@ const sendMessageToNATS = async (todo, created) => {
     console.log("Connected to NATS.");
 
     console.log(
-      `Publish message with ${todo} for ${
+      `Publish message with Todo having content as '${
+        todo.content
+      }' and 'done=${todo.done}' for ${
         created ? "create" : "update"
       } operation.`
     );
@@ -125,7 +127,7 @@ app.post("/todos", async (request, response) => {
       content: body.content,
     });
 
-    sendMessageToNATS(todo, true);
+    await sendMessageToNATS(todo, true);
 
     response.json(todo);
   }
@@ -149,12 +151,11 @@ app.put("/todos", async (request, response) => {
       });
     }
 
-    const todo = await Todos.update(
-      { done: body.done },
-      { where: { id: body.id } }
-    );
+    await Todos.update({ done: body.done }, { where: { id: body.id } });
 
-    sendMessageToNATS(todo, false);
+    const todo = await Todos.findOne({ where: { id: body.id } });
+
+    await sendMessageToNATS(todo, false);
 
     response.json(todo);
   }
