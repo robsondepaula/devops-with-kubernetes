@@ -17,6 +17,9 @@ spec:
         - name: broadcaster-container
           image: BROADCASTER_IMAGE
           imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: project-secret
           env:
             - name: NATS_URL
               valueFrom:

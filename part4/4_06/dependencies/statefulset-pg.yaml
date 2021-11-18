@@ -24,7 +24,7 @@ spec:
               mountPath: /data
           envFrom:
             - secretRef:
-                name: db-password
+                name: project-secret
             - configMapRef:
                 name: postgres-db-config
   volumeClaimTemplates:

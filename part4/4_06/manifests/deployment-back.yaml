@@ -27,7 +27,7 @@ spec:
               port: 3001
           envFrom:
             - secretRef:
-                name: db-password
+                name: project-secret
           env:
             - name: SVC_PORT
               valueFrom:
