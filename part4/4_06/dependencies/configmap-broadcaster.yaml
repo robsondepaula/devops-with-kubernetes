@@ -4,4 +4,4 @@ metadata:
   name: project-bc-config
   namespace: project-namespace
 data:
-  NATS_URL: "nats://my-nats:4222"
+  NATS_URL: "nats://my-nats.default:4222"

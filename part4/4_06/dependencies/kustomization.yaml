@@ -4,5 +4,6 @@ resources:
   - configmap-pg.yaml
   - configmap-back.yaml
   - configmap-front.yaml
+  - configmap-broadcaster.yaml
   - service-pg.yaml
   - statefulset-pg.yaml

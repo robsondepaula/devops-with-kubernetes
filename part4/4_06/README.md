@@ -36,9 +36,6 @@ Finally create the IngressClass resource:
 kubectl apply -f dependencies/nginx-class.yaml
 ```
 
-## Monitoring
-If not already done, follow the setup instructions on [4_03](../4_03/README.md).
-
 ## Messaging
 Add the helm chart for NATS (if not done previously):
 ```
@@ -49,6 +46,9 @@ Deploy NATS:
 ```
 helm install my-nats nats/nats
 ```
+
+## Monitoring
+If not already done, follow the setup instructions on [4_03](../4_03/README.md).
 
 ## Service monitoring setup
 Obtain the label to be used on the ServiceMonitor CRD:
@@ -119,4 +119,4 @@ kubectl apply -k manifests/.
 watch -n 1 "kubectl get po -n=project-namespace"
 ```
 
-3. Verify frontend, backend and messaging is working properly by creating and updating a "TODO" and checking the https://discord.gg/DVJjdSTU channel.
+3. Verify frontend, backend and messaging is working properly by creating and updating a "TODO" in http://localhost:8081 and checking the https://discord.gg/DVJjdSTU channel.
