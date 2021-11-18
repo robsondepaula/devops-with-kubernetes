@@ -118,4 +118,5 @@ kubectl apply -k manifests/.
 ```
 watch -n 1 "kubectl get po -n=project-namespace"
 ```
-3. Verify frontend, backend and messaging is working properly.
+
+3. Verify frontend, backend and messaging is working properly by creating and updating a "TODO" and checking the https://discord.gg/DVJjdSTU channel.

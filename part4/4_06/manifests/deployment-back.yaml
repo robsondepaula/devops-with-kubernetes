@@ -59,3 +59,8 @@ spec:
                 configMapKeyRef:
                   name: project-svc-config
                   key: POSTGRES_TABLE
+            - name: NATS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: project-svc-config
+                  key: NATS_URL
