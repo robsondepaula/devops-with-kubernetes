@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ingress.yaml
+  - service-back.yaml
+  - service-front.yaml
+  - deployment-back.yaml
+  - deployment-front.yaml
+  - deployment-broadcaster.yaml
+images:
+  - name: BACKEND_IMAGE
+    newName: robsondepaula/project-service:4_06
+  - name: FRONTEND_IMAGE
+    newName: robsondepaula/project:4_05 # no changes needed in the frontend
+  - name: BROADCASTER_IMAGE
+    newName: robsondepaula/project-broadcaster:4_06
