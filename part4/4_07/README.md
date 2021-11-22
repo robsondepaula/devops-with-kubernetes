@@ -27,7 +27,8 @@ flux bootstrap github \
     --owner=robsondepaula \
     --repository=kube-cluster-dwk \
     --personal \
-    --private=false
+    --private=false \
+    --path=4_07 
 ```
 ### Check https://github.com/robsondepaula/kube-cluster-dwk for details.
 
