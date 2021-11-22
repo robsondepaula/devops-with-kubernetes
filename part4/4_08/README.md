@@ -19,12 +19,6 @@ Remaining setup of the infrasctructure is going to occur declaratively.
 *Or* you can use the convenience script [create_empty_cluster.sh](./create_empty_cluster.sh).
 
 ## GitOps
-Create a secret in the default namespace with the age private key (not version controlled for obvious reasons):
-```
-cat secret/age.agekey |
-kubectl -n default create secret generic sops-age \
---from-file=age.agekey=/dev/stdin
-```
 Install flux (if not yet):
 ```
 curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
@@ -39,11 +33,6 @@ flux bootstrap github \
     --path=4_08
 ```
 ### Check https://github.com/robsondepaula/kube-cluster-dwk for details.
-
-Double check the secrets are available:
-```
-kubectl get secrets -n=project-namespace
-```
 
 ## Testing
 Monitor flux in action:
@@ -71,19 +60,29 @@ kubectl get po -n prometheus | grep grafana | awk '{print $1}' | read grafana; k
 ```
 
 # Application deployment
-1. Deploy the dependencies with kustomize:
+1. Seal and apply the app secrets:
 ```
-kubectl apply -k dependencies/.
+kubeseal --controller-namespace kube-system \
+    --controller-name sealed-secrets-controller \
+    -o yaml <secret/secret.yaml> secret/sealedsecret.yaml
+```
+Apply it so that it becomes available for usage in the cluster:
+```
+kubectl apply -f secret/sealedsecret.yaml
+```
+Check it is available:
+```
+kubectl get secrets -n=project-namespace
 ```
 
-3. Make sure the dependencies are ready (use Lens or kubectl) and only then deploy the project:
+2. Reconcile with flux:
 ```
-kubectl apply -k manifests/.
+flux reconcile source git flux-system
 ```
 
-4. Monitor the deployment state:
+3. Monitor the deployment state:
 ```
 watch -n 1 "kubectl get po -n=project-namespace"
 ```
 
-5. Verify frontend, backend and messaging is working properly by creating and updating a "TODO" in http://localhost:8081 and checking the https://discord.gg/DVJjdSTU channel.
+4. Verify frontend, backend and messaging is working properly by creating and updating a "TODO" in http://localhost:8081 and checking the https://discord.gg/DVJjdSTU channel.
