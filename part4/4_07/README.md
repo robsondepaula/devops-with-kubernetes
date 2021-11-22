@@ -20,7 +20,9 @@ Remaining setup of the infrasctructure is going to occur declaratively.
 
 ## GitOps
 Install flux (if not yet):
-
+```
+curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+```
 Bootstrap a repo to sync the cluster:
 ```
 flux bootstrap github \
