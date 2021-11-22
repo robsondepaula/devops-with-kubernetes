@@ -1,0 +1,89 @@
+# Cluster setup
+The "empty" cluster must exist before using flux to bootstrap it the GitOps way.
+
+So the pre conditions should at least be the following:
+1. Create the local directory (if not exist):
+```
+mkdir -p /tmp/kube
+```
+2. Command used to create the cluster:
+```
+k3d cluster create --k3s-arg "--disable=traefik@server:0" --volume /tmp/kube:/tmp/kube -p 8081:80@loadbalancer --agents 2
+```
+3. Create the local volume binding:
+```
+docker exec k3d-k3s-default-agent-0 mkdir -p /tmp/kube
+```
+Remaining setup of the infrasctructure is going to occur declaratively.
+
+*Or* you can use the convenience script [create_empty_cluster.sh](./create_empty_cluster.sh).
+
+## GitOps
+Create a secret in the default namespace with the age private key (not version controlled for obvious reasons):
+```
+cat secret/age.agekey |
+kubectl -n default create secret generic sops-age \
+--from-file=age.agekey=/dev/stdin
+```
+Install flux (if not yet):
+```
+curl -s https://toolkit.fluxcd.io/install.sh | sudo bash
+```
+Bootstrap a repo to sync the cluster:
+```
+flux bootstrap github \
+    --owner=robsondepaula \
+    --repository=kube-cluster-dwk \
+    --personal \
+    --private=false \
+    --path=4_08
+```
+### Check https://github.com/robsondepaula/kube-cluster-dwk for details.
+
+Double check the secrets are available:
+```
+kubectl get secrets -n=project-namespace
+```
+
+## Testing
+Monitor flux in action:
+```
+watch flux get kustomizations
+```
+
+When the reconciliation is done, the cluster will not be "empty" anymore and contain:
+* nginx
+* nats
+* prometheus
+* loki
+* promtail
+
+What can be double checked using Lens or kubectl.
+
+## Tips
+To access prometheus:
+```
+kubectl get po -n prometheus | grep prometheus-prometheus-kube-prometheus-prometheus | awk '{print $1}' | read operator; kubectl -n prometheus port-forward $operator 9090:9090
+```
+To access graphana:
+```
+kubectl get po -n prometheus | grep grafana | awk '{print $1}' | read grafana; kubectl -n prometheus port-forward $grafana 3000
+```
+
+# Application deployment
+1. Deploy the dependencies with kustomize:
+```
+kubectl apply -k dependencies/.
+```
+
+3. Make sure the dependencies are ready (use Lens or kubectl) and only then deploy the project:
+```
+kubectl apply -k manifests/.
+```
+
+4. Monitor the deployment state:
+```
+watch -n 1 "kubectl get po -n=project-namespace"
+```
+
+5. Verify frontend, backend and messaging is working properly by creating and updating a "TODO" in http://localhost:8081 and checking the https://discord.gg/DVJjdSTU channel.

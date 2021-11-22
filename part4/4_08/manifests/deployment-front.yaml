@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-app-dep
+  namespace: project-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-app
+  template:
+    metadata:
+      labels:
+        app: project-app
+    spec:
+      containers:
+        - name: app-container
+          image: FRONTEND_IMAGE
+          volumeMounts:
+              - name: config #override config.js file
+                mountPath: "/usr/share/nginx/html/config.js"
+                subPath: "config.js"
+          imagePullPolicy: Always
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 10
+            httpGet:
+              path: /
+              port: 80
+      volumes:
+          - name: config
+            configMap:
+                name: project-app-config
+                items:
+                    - key: "app.properties"
+                      path: "config.js"

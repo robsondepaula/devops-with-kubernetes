@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: project-bc-config
+  namespace: project-namespace
+data:
+  NATS_URL: "nats://my-nats.default:4222"
