@@ -1,0 +1,6 @@
+domain: stable.devopswithkubernetes.com
+layout:
+- go.kubebuilder.io/v3
+projectName: controller
+repo: github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller
+version: "3"
