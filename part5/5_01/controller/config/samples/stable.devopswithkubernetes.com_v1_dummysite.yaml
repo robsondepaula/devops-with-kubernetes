@@ -1,0 +1,6 @@
+apiVersion: stable.devopswithkubernetes.com.stable.devopswithkubernetes.com/v1
+kind: DummySite
+metadata:
+  name: dummysite-sample
+spec:
+  # TODO(user): Add fields here

@@ -1,0 +1,24 @@
+# permissions for end users to edit dummysites.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dummysite-editor-role
+rules:
+- apiGroups:
+  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  resources:
+  - dummysites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  resources:
+  - dummysites/status
+  verbs:
+  - get
