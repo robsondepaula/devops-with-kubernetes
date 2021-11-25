@@ -28,8 +28,7 @@ type DummySiteSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of DummySite. Edit dummysite_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	WebsiteURL string `json:"website_url,omitempty"`
 }
 
 // DummySiteStatus defines the observed state of DummySite

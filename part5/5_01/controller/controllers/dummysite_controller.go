@@ -47,9 +47,14 @@ type DummySiteReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.10.0/pkg/reconcile
 func (r *DummySiteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+	var logger = log.FromContext(ctx)
 
-	// TODO(user): your logic here
+	var dummySite stabledevopswithkubernetescomv1.DummySite
+	if err := r.Get(ctx, req.NamespacedName, &dummySite); err != nil {
+		logger.Error(err, "Failed to fetch DummySite!")
+		return ctrl.Result{}, nil
+	}
+	logger.Info("A new DummySite started reconciling:  ", "website_url=", dummySite.Spec.WebsiteURL)
 
 	return ctrl.Result{}, nil
 }

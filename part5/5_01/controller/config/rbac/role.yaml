@@ -1,0 +1,34 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  resources:
+  - dummysites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  resources:
+  - dummysites/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  resources:
+  - dummysites/status
+  verbs:
+  - get
+  - patch
+  - update
