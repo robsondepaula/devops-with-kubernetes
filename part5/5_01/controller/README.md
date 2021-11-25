@@ -20,5 +20,5 @@ make run
 ```
 And then deploy the manifest to validate it works:
 ```
-kubectl apply -f ../manifests/dummy-site-01.yaml
+kubectl apply -f config/samples/stable_v1_dummysite.yaml
 ```

@@ -3,4 +3,5 @@ kind: DummySite
 metadata:
   name: dummysite-sample
 spec:
-  # TODO(user): Add fields here
+  website_url: https://example.com/
+  image: robsondepaula/dummy-site:5_01
