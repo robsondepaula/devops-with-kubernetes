@@ -30,7 +30,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	stabledevopswithkubernetescomv1 "github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller/api/v1"
+	stablev1 "github.com/robs/api/v1"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -62,7 +62,7 @@ var _ = BeforeSuite(func() {
 	Expect(err).NotTo(HaveOccurred())
 	Expect(cfg).NotTo(BeNil())
 
-	err = stabledevopswithkubernetescomv1.AddToScheme(scheme.Scheme)
+	err = stablev1.AddToScheme(scheme.Scheme)
 	Expect(err).NotTo(HaveOccurred())
 
 	//+kubebuilder:scaffold:scheme

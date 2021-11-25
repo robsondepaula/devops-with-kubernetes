@@ -1,4 +1,4 @@
-apiVersion: stable.devopswithkubernetes.com.stable.devopswithkubernetes.com/v1
+apiVersion: stable.devopswithkubernetes.com/v1
 kind: DummySite
 metadata:
   name: dummysite-sample

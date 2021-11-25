@@ -1,4 +1,4 @@
-module github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller
+module github.com/robs
 
 go 1.16
 

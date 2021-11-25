@@ -7,7 +7,7 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  - stable.devopswithkubernetes.com
   resources:
   - dummysites
   verbs:
@@ -19,13 +19,13 @@ rules:
   - update
   - watch
 - apiGroups:
-  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  - stable.devopswithkubernetes.com
   resources:
   - dummysites/finalizers
   verbs:
   - update
 - apiGroups:
-  - stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  - stable.devopswithkubernetes.com
   resources:
   - dummysites/status
   verbs:

@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	stabledevopswithkubernetescomv1 "github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller/api/v1"
+	stablev1 "github.com/robs/api/v1"
 )
 
 // DummySiteReconciler reconciles a DummySite object
@@ -33,9 +33,9 @@ type DummySiteReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-//+kubebuilder:rbac:groups=stable.devopswithkubernetes.com.stable.devopswithkubernetes.com,resources=dummysites,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=stable.devopswithkubernetes.com.stable.devopswithkubernetes.com,resources=dummysites/status,verbs=get;update;patch
-//+kubebuilder:rbac:groups=stable.devopswithkubernetes.com.stable.devopswithkubernetes.com,resources=dummysites/finalizers,verbs=update
+//+kubebuilder:rbac:groups=stable.devopswithkubernetes.com,resources=dummysites,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=stable.devopswithkubernetes.com,resources=dummysites/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=stable.devopswithkubernetes.com,resources=dummysites/finalizers,verbs=update
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -49,7 +49,7 @@ type DummySiteReconciler struct {
 func (r *DummySiteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	var logger = log.FromContext(ctx)
 
-	var dummySite stabledevopswithkubernetescomv1.DummySite
+	var dummySite stablev1.DummySite
 	if err := r.Get(ctx, req.NamespacedName, &dummySite); err != nil {
 		logger.Error(err, "Failed to fetch DummySite!")
 		return ctrl.Result{}, nil
@@ -62,6 +62,6 @@ func (r *DummySiteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 // SetupWithManager sets up the controller with the Manager.
 func (r *DummySiteReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&stabledevopswithkubernetescomv1.DummySite{}).
+		For(&stablev1.DummySite{}).
 		Complete(r)
 }

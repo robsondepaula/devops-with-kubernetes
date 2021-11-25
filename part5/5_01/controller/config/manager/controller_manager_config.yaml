@@ -8,4 +8,4 @@ webhook:
   port: 9443
 leaderElection:
   leaderElect: true
-  resourceName: c6ae9f6d.stable.devopswithkubernetes.com
+  resourceName: 772a946a.devopswithkubernetes.com

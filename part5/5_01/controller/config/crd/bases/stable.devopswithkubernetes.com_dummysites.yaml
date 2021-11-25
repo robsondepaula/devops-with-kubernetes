@@ -6,9 +6,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
-  name: dummysites.stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  name: dummysites.stable.devopswithkubernetes.com
 spec:
-  group: stable.devopswithkubernetes.com.stable.devopswithkubernetes.com
+  group: stable.devopswithkubernetes.com
   names:
     kind: DummySite
     listKind: DummySiteList
