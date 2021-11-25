@@ -29,6 +29,7 @@ type DummySiteSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	WebsiteURL string `json:"website_url,omitempty"`
+	Image      string `json:"image,omitempty"`
 }
 
 // DummySiteStatus defines the observed state of DummySite

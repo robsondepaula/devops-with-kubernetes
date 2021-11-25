@@ -36,6 +36,8 @@ spec:
           spec:
             description: DummySiteSpec defines the desired state of DummySite
             properties:
+              image:
+                type: string
               website_url:
                 type: string
             type: object

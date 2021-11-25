@@ -3,4 +3,5 @@ kind: DummySite
 metadata:
   name: dummy01
 spec:
-  website_url: https://www.w3schools.com/w3css/tryw3css_templates_band.htm
+  website_url: https://example.com/
+  image: robsondepaula/dummy-site:5_01

@@ -54,7 +54,7 @@ func (r *DummySiteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (
 		logger.Error(err, "Failed to fetch DummySite!")
 		return ctrl.Result{}, nil
 	}
-	logger.Info("A new DummySite started reconciling:  ", "website_url=", dummySite.Spec.WebsiteURL)
+	logger.Info("A new DummySite started reconciling...", "website_url=", dummySite.Spec.WebsiteURL, "image=", dummySite.Spec.Image)
 
 	return ctrl.Result{}, nil
 }
