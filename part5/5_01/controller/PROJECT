@@ -2,7 +2,7 @@ domain: devopswithkubernetes.com
 layout:
 - go.kubebuilder.io/v3
 projectName: controller
-repo: github.com/robs
+repo: github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller
 resources:
 - api:
     crdVersion: v1
@@ -11,6 +11,6 @@ resources:
   domain: devopswithkubernetes.com
   group: stable
   kind: DummySite
-  path: github.com/robs/api/v1
+  path: github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller/api/v1
   version: v1
 version: "3"

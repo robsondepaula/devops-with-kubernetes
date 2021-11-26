@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	stablev1 "github.com/robs/api/v1"
+	stablev1 "github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller/api/v1"
 )
 
 // DummySiteReconciler reconciles a DummySite object

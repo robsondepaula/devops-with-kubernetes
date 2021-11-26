@@ -1,8 +1,7 @@
 # kubebuilder project
 Initialized with:
 ```
-kubebuilder init --domain devopswithkubernetes.com --repo github.com/robs
-ondepaula/devops-with-kubernetes/part5/5_01/controller
+kubebuilder init --domain devopswithkubernetes.com --repo github.com/robsondepaula/devops-with-kubernetes/part5/5_01/controller
 ```
 API created with:
 ```
