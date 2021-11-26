@@ -19,6 +19,10 @@ package controllers
 import (
 	"context"
 
+	kapps "k8s.io/api/apps/v1"
+	v1 "k8s.io/api/apps/v1"
+	core "k8s.io/api/core/v1"
+	kmeta "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -33,9 +37,57 @@ type DummySiteReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+func (r *DummySiteReconciler) createDummySiteDeployment(ctx context.Context, dummySite *stablev1.DummySite) (*kapps.Deployment, error) {
+	//logger := log.FromContext(ctx)
+
+	numReplicas := int32(1)
+	deployment := &kapps.Deployment{
+		ObjectMeta: kmeta.ObjectMeta{
+			Namespace: dummySite.Namespace,
+			Name:      dummySite.Name,
+		},
+		Spec: v1.DeploymentSpec{
+			Replicas: &numReplicas,
+			Selector: &kmeta.LabelSelector{
+				MatchLabels: map[string]string{
+					"stable.devopswithkubernetes.com/deployment-name": dummySite.Name,
+				},
+			},
+			Template: core.PodTemplateSpec{
+				ObjectMeta: kmeta.ObjectMeta{
+					Labels: map[string]string{
+						"stable.devopswithkubernetes.com/deployment-name": dummySite.Name,
+					},
+				},
+				Spec: core.PodSpec{
+					Containers: []core.Container{
+						{
+							Name:  "dummy",
+							Image: dummySite.Spec.Image,
+							Env: []core.EnvVar{
+								{
+									Name:  "WEBSITE_URL",
+									Value: dummySite.Spec.WebsiteURL,
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	if err := ctrl.SetControllerReference(dummySite, deployment, r.Scheme); err != nil {
+		return nil, err
+	}
+
+	return deployment, nil
+}
+
 //+kubebuilder:rbac:groups=stable.devopswithkubernetes.com,resources=dummysites,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=stable.devopswithkubernetes.com,resources=dummysites/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=stable.devopswithkubernetes.com,resources=dummysites/finalizers,verbs=update
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;delete
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
@@ -47,14 +99,27 @@ type DummySiteReconciler struct {
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.10.0/pkg/reconcile
 func (r *DummySiteReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	var logger = log.FromContext(ctx)
+	logger := log.FromContext(ctx)
 
-	var dummySite stablev1.DummySite
+	dummySite := stablev1.DummySite{}
 	if err := r.Get(ctx, req.NamespacedName, &dummySite); err != nil {
 		logger.Error(err, "Failed to fetch DummySite!")
 		return ctrl.Result{}, nil
 	}
 	logger.Info("A new DummySite started reconciling...", "website_url=", dummySite.Spec.WebsiteURL, "image=", dummySite.Spec.Image)
+
+	deployment, err := r.createDummySiteDeployment(ctx, &dummySite)
+	if err != nil {
+		logger.Info("Unable to create deployment from template")
+		return ctrl.Result{}, err
+	}
+
+	if err := r.Create(ctx, deployment); err != nil {
+		logger.Info("Unable to create Deployment for DummySite")
+		return ctrl.Result{}, err
+	}
+
+	logger.Info("Created Deployment for DummySite")
 
 	return ctrl.Result{}, nil
 }
