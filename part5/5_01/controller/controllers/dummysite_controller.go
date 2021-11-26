@@ -18,8 +18,9 @@ package controllers
 
 import (
 	"context"
+	"math/rand"
+	"time"
 
-	kapps "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/apps/v1"
 	core "k8s.io/api/core/v1"
 	kmeta "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -37,26 +38,38 @@ type DummySiteReconciler struct {
 	Scheme *runtime.Scheme
 }
 
-func (r *DummySiteReconciler) createDummySiteDeployment(ctx context.Context, dummySite *stablev1.DummySite) (*kapps.Deployment, error) {
-	//logger := log.FromContext(ctx)
+const charset = "abcdefghijklmnopqrstuvwxyz0123456789"
 
+var seededRand *rand.Rand = rand.New(
+	rand.NewSource(time.Now().UnixNano()))
+
+func StringWithCharset(length int, charset string) string {
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
+}
+
+func (r *DummySiteReconciler) createDummySiteDeployment(ctx context.Context, dummySite *stablev1.DummySite) (*v1.Deployment, error) {
+	deploymentName := "dummysite-dep-" + StringWithCharset(8, charset)
 	numReplicas := int32(1)
-	deployment := &kapps.Deployment{
+	deployment := &v1.Deployment{
 		ObjectMeta: kmeta.ObjectMeta{
 			Namespace: dummySite.Namespace,
-			Name:      dummySite.Name,
+			Name:      deploymentName,
 		},
 		Spec: v1.DeploymentSpec{
 			Replicas: &numReplicas,
 			Selector: &kmeta.LabelSelector{
 				MatchLabels: map[string]string{
-					"stable.devopswithkubernetes.com/deployment-name": dummySite.Name,
+					"stable.devopswithkubernetes.com/deployment-name": deploymentName,
 				},
 			},
 			Template: core.PodTemplateSpec{
 				ObjectMeta: kmeta.ObjectMeta{
 					Labels: map[string]string{
-						"stable.devopswithkubernetes.com/deployment-name": dummySite.Name,
+						"stable.devopswithkubernetes.com/deployment-name": deploymentName,
 					},
 				},
 				Spec: core.PodSpec{
