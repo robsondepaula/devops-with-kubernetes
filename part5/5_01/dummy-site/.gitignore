@@ -1,6 +1,9 @@
 # Build output
 out/
 
+# Test output
+example.com/
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
