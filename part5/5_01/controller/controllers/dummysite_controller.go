@@ -75,12 +75,18 @@ func (r *DummySiteReconciler) createDummySiteDeployment(ctx context.Context, dum
 				Spec: core.PodSpec{
 					Containers: []core.Container{
 						{
-							Name:  "dummy",
-							Image: dummySite.Spec.Image,
+							Name:            "dummy",
+							Image:           dummySite.Spec.Image,
+							ImagePullPolicy: "Always",
 							Env: []core.EnvVar{
 								{
 									Name:  "WEBSITE_URL",
 									Value: dummySite.Spec.WebsiteURL,
+								},
+							},
+							Ports: []core.ContainerPort{
+								{
+									ContainerPort: int32(5000),
 								},
 							},
 						},

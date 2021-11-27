@@ -5,10 +5,16 @@ The objective here is to validate the custom resource definition, DummySite, cre
 
 It makes use of the [goclone](https://github.com/imthaghost/goclone) package to speed up the results.
 
+Page is served by port 5000 and health check endpoints for kubernetes are available at 8080.
+
 ## Local testing
 Execute:
 ```
 GOPATH=~/go WEBSITE_URL=https://example.com/ bash -c 'go run .'
+```
+Health check:
+```
+curl localhost:8080/healthz
 ```
 
 ## Docker image

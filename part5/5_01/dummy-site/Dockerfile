@@ -6,14 +6,15 @@ RUN go install
 
 WORKDIR /app/go-dummy-site
 
-#COPY go.mod .
-#COPY go.sum .
-#RUN go mod download
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
 
 COPY . .
 
 RUN go build -o ./out/go-dummy-site .
 
-EXPOSE 8080 5000
+EXPOSE 8080
+EXPOSE 5000
 
 CMD ["./out/go-dummy-site"]
