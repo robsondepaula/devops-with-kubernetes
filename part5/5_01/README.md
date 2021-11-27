@@ -1,22 +1,23 @@
 # DIY CRD & Controller
 
 ## Cluster setup
-Use the convenience script [create_empty_cluster.sh](./create_empty_cluster.sh).
+The tests are performed on a 'simple' cluster created like so:
+```
+k3d cluster create --agents 2
+```
 
 ## Custom Resource Definition
-Create the custom resource for the 'DummySite' assignment:
-```
-kubectl apply -f crd/custom-resource-definition.yaml
-```
-Check that all is well:
-```
-kubectl get crd
-```
-Must output something like:
-```
-NAME                                      CREATED AT
-addons.k3s.cattle.io                      2021-11-23T14:37:49Z
-helmcharts.helm.cattle.io                 2021-11-23T14:37:49Z
-helmchartconfigs.helm.cattle.io           2021-11-23T14:37:49Z
-dummies.stable.devopswithkubernetes.com   2021-11-23T16:17:01Z
-```
+The CRD was created using kubebuilder and the details can be found in the [controller](./controller) subfolder.
+
+## DummySite
+The deployment created by the CRD controller uses a Docker image created to clone the website. It contains a service written in the Go language that servers k8s health-check endpoints and also clones the website.  Details on how this image was obtained can be found in the [dummy-site](./dummy-site) subfolder.
+
+# Validation
+To validate the end-to-end requirement (deploy a CRD and check it clones a website), make sure you navigate to [controller](./controller) and follow the instructions there.
+
+## Screenshots
+The screenshot below shows the pod running the *dummy-site* image using [Lens](https://k8slens.dev/). The pod was created by the *controller* CRD.
+
+![log](./5_01.png)
+
+Notice the https://example.com/ was downloaded successfully per the assignment instructions.
