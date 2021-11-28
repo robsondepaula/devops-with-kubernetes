@@ -16,8 +16,12 @@ The deployment created by the CRD controller uses a Docker image created to clon
 To validate the end-to-end requirement (deploy a CRD and check it clones a website), make sure you navigate to [controller](./controller) and follow the instructions there.
 
 ## Screenshots
-The screenshot below shows the pod running the *dummy-site* image using [Lens](https://k8slens.dev/). The pod was created by the *controller* CRD.
+The image below shows the pod running the *dummy-site* image using [Lens](https://k8slens.dev/). The pod was created by the *controller* CRD.
 
-![log](./5_01.png)
+![files](./5_01_1.png)
 
 Notice the https://example.com/ was downloaded successfully per the assignment instructions.
+
+You can visit the cloned dummy site by port forwarding to 5000 on the Pod, use *kubectl* or *Lens* itself to do so and check the results as illustrated on the screenshot below.
+
+![site](./5_01_2.png)

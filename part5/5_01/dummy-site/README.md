@@ -5,7 +5,9 @@ The objective here is to validate the custom resource definition, DummySite, cre
 
 It makes use of the [goclone](https://github.com/imthaghost/goclone) package to speed up the results.
 
-Page is served by port 5000 and health check endpoints for kubernetes are available at 8080.
+Since the original *goclone* did not provide a 'no-gui' option I made a fork and performed the necessary changes so that it can not only clone the website but also serve it on a local port on a 'headless' container. Pleache check the [fork](https://github.com/robsondepaula/goclone) for details.
+
+The cloned dummy site is served by port 5000 and health check endpoints for kubernetes are available at 8080.
 
 ## Local testing
 Execute:

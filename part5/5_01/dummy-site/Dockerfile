@@ -1,7 +1,7 @@
 FROM golang:1.17.3
 
-RUN go get github.com/imthaghost/goclone@v1.2.0
-WORKDIR $GOPATH/pkg/mod/github.com/imthaghost/goclone@v1.2.0/cmd/goclone
+RUN go get github.com/robsondepaula/goclone@v1.2.1
+WORKDIR $GOPATH/pkg/mod/github.com/robsondepaula/goclone@v1.2.1/cmd/goclone
 RUN go install
 
 WORKDIR /app/go-dummy-site
