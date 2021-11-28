@@ -21,3 +21,11 @@ And then deploy the manifest containing the custom resource to validate all is w
 ```
 kubectl apply -f config/samples/stable_v1_dummysite.yaml
 ```
+
+# Publishing
+Once the CRD reaches the point that it can be published, functional enough to deliver the 'dummy-site' requirement in this particular case; it can be pushed to the Docker registry and applied in a cluster.
+
+The command below, show how it was done for this exercise:
+```
+make docker-build docker-push IMG=robsondepaula/dwj-dummy-site:5_01
+```
