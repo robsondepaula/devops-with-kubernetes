@@ -1,0 +1,14 @@
+# Based on a copy from controller/config/rbac
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dummy-site-controller-account-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: dummy-site-controller-account-role
+subjects:
+- kind: ServiceAccount
+  name: dummy-site-controller-account
+  namespace: default

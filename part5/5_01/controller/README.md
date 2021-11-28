@@ -27,5 +27,5 @@ Once the CRD reaches the point that it can be published, functional enough to de
 
 The command below, show how it was done for this exercise:
 ```
-make docker-build docker-push IMG=robsondepaula/dwj-dummy-site:5_01
+make docker-build docker-push IMG=robsondepaula/dwk-dummy-site:5_01
 ```

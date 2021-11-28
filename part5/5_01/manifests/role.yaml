@@ -1,0 +1,45 @@
+# copied from controller/config/rbac
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: dummy-site-controller-account-role
+rules:
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - stable.devopswithkubernetes.com
+  resources:
+  - dummysites
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - stable.devopswithkubernetes.com
+  resources:
+  - dummysites/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - stable.devopswithkubernetes.com
+  resources:
+  - dummysites/status
+  verbs:
+  - get
+  - patch
+  - update

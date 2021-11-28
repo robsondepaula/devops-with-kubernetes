@@ -15,6 +15,16 @@ The deployment created by the CRD controller uses a Docker image built to clone 
 # Validation
 To validate the end-to-end requirement (deploy a CRD and check it clones a website), make sure you navigate to [controller](./controller) and follow the instructions there.
 
+In case you do not have *kubebuilder* installed you can validate the CRD assignment by issuing the following command:
+```
+kubectl apply -k manifests/
+```
+
+And once the resources are available, deploy the *DummySite*:
+```
+kubectl apply -f manifests/stable_v1_dummysite.yaml
+```
+
 ## Screenshots
 The image below shows the pod running the *dummy-site* image using [Lens](https://k8slens.dev/). The pod was created by the *controller* CRD.
 

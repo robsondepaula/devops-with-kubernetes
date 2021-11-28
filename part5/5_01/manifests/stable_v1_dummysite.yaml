@@ -1,0 +1,9 @@
+# copied from controller/config/samples
+---
+apiVersion: stable.devopswithkubernetes.com/v1
+kind: DummySite
+metadata:
+  name: dummysite-sample
+spec:
+  website_url: https://example.com/
+  image: robsondepaula/dummy-site:5_01
