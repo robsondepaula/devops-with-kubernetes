@@ -15,7 +15,7 @@ Just followed the [linkerd](https://linkerd.io/2.11/getting-started/) docs up to
 ## Obtain modified project manifests using linkerd inject
 1. Project dependencies:
 ```
-helm install ingress-nginx ingress-nginx/ingress-ngin
+helm install ingress-nginx ingress-nginx/ingress-nginx
 helm install my-nats nats/nats
 helm install sealed-secrets --namespace kube-system --version 1.16.1 sealed-secrets/sealed-secrets
 ```
