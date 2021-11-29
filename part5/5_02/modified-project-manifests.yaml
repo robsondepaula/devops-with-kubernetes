@@ -1,0 +1,256 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"project-bc-dep","namespace":"project-namespace"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"project-bc"}},"template":{"metadata":{"labels":{"app":"project-bc"}},"spec":{"containers":[{"env":[{"name":"NATS_URL","valueFrom":{"configMapKeyRef":{"key":"NATS_URL","name":"project-bc-config"}}}],"envFrom":[{"secretRef":{"name":"project-secret"}}],"image":"robsondepaula/project-broadcaster:4_06","imagePullPolicy":"Always","name":"broadcaster-container"}]}}}}
+    generation: 1
+    name: project-bc-dep
+    namespace: project-namespace
+    resourceVersion: "3462"
+    uid: 8c9059ef-cd9f-493e-97e3-0b40e1856dc8
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: project-bc
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          linkerd.io/inject: enabled
+        labels:
+          app: project-bc
+      spec:
+        containers:
+        - env:
+          - name: NATS_URL
+            valueFrom:
+              configMapKeyRef:
+                key: NATS_URL
+                name: project-bc-config
+          envFrom:
+          - secretRef:
+              name: project-secret
+          image: robsondepaula/project-broadcaster:4_06
+          imagePullPolicy: Always
+          name: broadcaster-container
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - message: ReplicaSet "project-bc-dep-679599d49b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"project-app-dep","namespace":"project-namespace"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"project-app"}},"template":{"metadata":{"labels":{"app":"project-app"}},"spec":{"containers":[{"image":"robsondepaula/project:4_05","imagePullPolicy":"Always","name":"app-container","readinessProbe":{"httpGet":{"path":"/","port":80},"initialDelaySeconds":10,"periodSeconds":5,"timeoutSeconds":10},"volumeMounts":[{"mountPath":"/usr/share/nginx/html/config.js","name":"config","subPath":"config.js"}]}],"volumes":[{"configMap":{"items":[{"key":"app.properties","path":"config.js"}],"name":"project-app-config"},"name":"config"}]}}}}
+    generation: 1
+    name: project-app-dep
+    namespace: project-namespace
+    resourceVersion: "3484"
+    uid: dbf2b2f9-9b02-4200-94f6-d65666390067
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: project-app
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          linkerd.io/inject: enabled
+        labels:
+          app: project-app
+      spec:
+        containers:
+        - image: robsondepaula/project:4_05
+          imagePullPolicy: Always
+          name: app-container
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 10
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /usr/share/nginx/html/config.js
+            name: config
+            subPath: config.js
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - configMap:
+            defaultMode: 420
+            items:
+            - key: app.properties
+              path: config.js
+            name: project-app-config
+          name: config
+  status:
+    availableReplicas: 1
+    conditions:
+    - message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - message: ReplicaSet "project-app-dep-7d54fc47b7" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"project-svc-dep","namespace":"project-namespace"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"project-svc"}},"template":{"metadata":{"labels":{"app":"project-svc"}},"spec":{"containers":[{"env":[{"name":"SVC_PORT","valueFrom":{"configMapKeyRef":{"key":"SVC_PORT","name":"project-svc-config"}}},{"name":"POSTGRES_HOST","valueFrom":{"configMapKeyRef":{"key":"POSTGRES_HOST","name":"project-svc-config"}}},{"name":"POSTGRES_PORT","valueFrom":{"configMapKeyRef":{"key":"POSTGRES_PORT","name":"project-svc-config"}}},{"name":"POSTGRES_USER","valueFrom":{"configMapKeyRef":{"key":"POSTGRES_USER","name":"project-svc-config"}}},{"name":"POSTGRES_DB","valueFrom":{"configMapKeyRef":{"key":"POSTGRES_DB","name":"project-svc-config"}}},{"name":"POSTGRES_TABLE","valueFrom":{"configMapKeyRef":{"key":"POSTGRES_TABLE","name":"project-svc-config"}}},{"name":"NATS_URL","valueFrom":{"configMapKeyRef":{"key":"NATS_URL","name":"project-svc-config"}}}],"envFrom":[{"secretRef":{"name":"project-secret"}}],"image":"robsondepaula/project-service:4_06","imagePullPolicy":"Always","name":"service-container","readinessProbe":{"httpGet":{"path":"/healthz","port":3001},"initialDelaySeconds":10,"periodSeconds":5,"successThreshold":1,"timeoutSeconds":10}}]}}}}
+    generation: 1
+    name: project-svc-dep
+    namespace: project-namespace
+    resourceVersion: "3495"
+    uid: 99d6ffef-95ca-4c6d-8215-5313ee923dac
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: project-svc
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          linkerd.io/inject: enabled
+        labels:
+          app: project-svc
+      spec:
+        containers:
+        - env:
+          - name: SVC_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: SVC_PORT
+                name: project-svc-config
+          - name: POSTGRES_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_HOST
+                name: project-svc-config
+          - name: POSTGRES_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_PORT
+                name: project-svc-config
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_USER
+                name: project-svc-config
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_DB
+                name: project-svc-config
+          - name: POSTGRES_TABLE
+            valueFrom:
+              configMapKeyRef:
+                key: POSTGRES_TABLE
+                name: project-svc-config
+          - name: NATS_URL
+            valueFrom:
+              configMapKeyRef:
+                key: NATS_URL
+                name: project-svc-config
+          envFrom:
+          - secretRef:
+              name: project-secret
+          image: robsondepaula/project-service:4_06
+          imagePullPolicy: Always
+          name: service-container
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 3001
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 10
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - message: ReplicaSet "project-svc-dep-78887fccd6" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata: {}
+---

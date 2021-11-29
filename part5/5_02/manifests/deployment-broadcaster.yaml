@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-bc-dep
+  namespace: project-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-bc
+  template:
+    metadata:
+      labels:
+        app: project-bc
+    spec:
+      containers:
+        - name: broadcaster-container
+          image: BROADCASTER_IMAGE
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: project-secret
+          env:
+            - name: NATS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: project-bc-config
+                  key: NATS_URL
