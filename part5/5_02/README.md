@@ -7,7 +7,7 @@ The viz dashboard illustrates the meshed project:
 ![viz](./5_02.png)
 
 ## Cluster setup
-I used the convenience script [create_empty_cluster.sh](./create_empty_cluster.sh) to create and empty cluster.
+I used the convenience script [create_empty_cluster.sh](./create_empty_cluster.sh) to create an empty cluster.
 
 ## linkerd setup
 Just followed the [linkerd](https://linkerd.io/2.11/getting-started/) docs up to step 5.1.

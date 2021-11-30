@@ -32,6 +32,6 @@ The image below shows the pod running the *dummy-site* image using [Lens](https:
 
 Notice the https://example.com/ was downloaded successfully per the assignment instructions.
 
-You can visit the cloned dummy site by port forwarding to 5000 on the Pod, use *kubectl* or *Lens* itself to do so and check the results as illustrated on the screenshot below.
+You can visit the cloned dummy site by port forwarding to 5000 on the Pod, use *kubectl* or *Lens* itself to do so, and check the results as illustrated on the screenshot below.
 
 ![site](./5_01_2.png)

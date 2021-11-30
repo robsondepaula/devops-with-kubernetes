@@ -1,6 +1,6 @@
 # Canary release in linkerd with Flagger
 
-If not done, setup linkerd as described in [Service Mesh Edition](../5_02/README.md).
+If not done, set up linkerd as described in [Service Mesh Edition](../5_02/README.md).
 
 And then follow the [guide](https://linkerd.io/2.11/tasks/canary-release/).
 
