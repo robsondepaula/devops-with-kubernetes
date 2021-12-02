@@ -1,5 +1,5 @@
-# DevOps with Kubernetes
+# DevOps with Kubernetes - 2021
 
 https://devopswithkubernetes.com/
 
-Exercises for the mooc, each part contains the submissions in the corresponding folder.
+Exercises for the mooc (fall 2021 edition), each part contains the submissions in the corresponding folder.
